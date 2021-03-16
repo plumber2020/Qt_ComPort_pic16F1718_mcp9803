@@ -23,4 +23,4 @@ disassembly/
 *.map
 
 datasheets/
-!dist/default/production/*.hex
+!/dist/default/production/*.hex
