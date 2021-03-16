@@ -13,7 +13,7 @@ nbproject/private/
 nbproject/Package-*.bash
 build/
 nbbuild/
-dist/
+dist/default/production/**
 nbdist/
 nbactions.xml
 nb-configuration.xml
@@ -23,5 +23,4 @@ disassembly/
 *.map
 
 datasheets/
-!*.hex
-!*.elf
+!dist/default/production/*.hex
