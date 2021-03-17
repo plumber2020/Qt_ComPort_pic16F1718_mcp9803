@@ -42,42 +42,47 @@ void MCP9803_Initialize() {
                 &i2cMCP9803_readDataBlock,
                 &i2cMCP9803_writeDataBlock
     );
-    
-    Operational_Mode = (MCP9803_OneShot_GetValue())?ONE_SHOT:CONTINUOUS;
+    uint8_t operationMode = (MCP9803_OneShot_GetValue()) ? 
+                            MCP9803_SHUTDOWN_ENABLE : MCP9803_SHUTDOWN_DISABLE;
     printf("START Temperature SENSOR: %s. Mode=%s\n\r",
             (MCP9803_NAME),
-            (Operational_Mode)?"ONE_SHOT":"CONTINUOUS");
-    MCP9803_SetOperationMode(&mcp9803,Operational_Mode);
+            (operationMode)?"ONE_SHOT":"CONTINUOUS");
+    MCP9803_SetOperationMode(&mcp9803,operationMode);
 }
 
 void MCP9803_CheckTemperature()
 {
     //check pre-last step for ONE_SHOT MODE ////////////////////////////
-    if ( mcp9803.m_flags.readySendCfg )
+    if ( mcp9803.m_flag.readySendCfg )
         if (mcp9803.m_config & (uint8_t)ONE_SHOT)
         {
             MCP9803_SetConfiguration(&mcp9803);
-            mcp9803.m_flags.readySendCfg = false;
+            mcp9803.m_flag.readySendCfg = false;
             TMR6 = 0x00; //restart current count for setup actual delay
             FLAG(DUBUG_1,0);
             return;
         }
     
     //check ready data from sensor ////////////////////////////////////
-    if (!mcp9803.m_flags.readyGetData)
+    if (!mcp9803.m_flag.readyGetData)
         return;
      
     //getting temperature value and print /////////////////////////////
     mcp9803.m_data = MCP9803_GetTemperature(
                         &mcp9803, MCP9803_AMBIENT_TEMPERATURE_REGISTER);
+    
+    //output in UART
+    printf("%s[id:%u] ", MCP9803_NAME, mcp9803.m_address&0x7);
     char result_str[8]="";
     MCP9803_STRING_fromRAW2complement(result_str, mcp9803.m_data);
+    printf("%8s ", result_str);
     
-    printf("Temperature: %8s [%6s]\n\r", result_str,
-                    (MCP9803_IsAlert(&mcp9803))?"ALERT":"NORMAL");
+    if ((mcp9803.m_config&MCP9803_SHUTDOWN_ENABLE) != (MCP9803_SHUTDOWN_ENABLE))
+        printf("[%6s] ", (MCP9803_IsAlert(&mcp9803))?"ALERT":"NORMAL");
+    printf("\n\r");
     
     //reset ///////////////////////////////////////////////////////////
-    mcp9803.m_flags.readyGetData = false;
+    mcp9803.m_flag.readyGetData = false;
     FLAG(DUBUG_2,0);
     CLRWDT();
     
@@ -94,7 +99,7 @@ void MCP9803_CheckTemperature()
         FLAG(DUBUG_1,1);
         TMR6 = 0x00; //restart current count for setup actual delay
         TMRCallback_Counter = 0;  //reset
-        printf("...WAKE UP STATUS nTO[ %c ] nPD[ %c ]\n\r",
+        printf("...WAKE UP STATUS [nTO|nPD] = %c%c \n\r",
                 (STATUSbits.nTO)?'1':'0',
                 (STATUSbits.nPD)?'1':'0' 
                 );
@@ -115,12 +120,12 @@ void MCP9803_GetTempr_TMR_InterruptHandler()
     FLAG(DUBUG_1,~FLAG_GetValue());
     ++TMRCallback_Counter;
     if(TMRCallback_Counter == TMRCallback_Counter_MAX-1) {
-        mcp9803.m_flags.readySendCfg = true;
+        mcp9803.m_flag.readySendCfg = true;
         FLAG(DUBUG_1,1); 
     }
     else
         if(TMRCallback_Counter >= TMRCallback_Counter_MAX) {
-            mcp9803.m_flags.readyGetData = true;
+            mcp9803.m_flag.readyGetData = true;
             TMRCallback_Counter = 0; //reset
             FLAG(DUBUG_2,1);
         }

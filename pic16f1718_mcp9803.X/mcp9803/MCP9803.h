@@ -209,19 +209,19 @@ extern "C" {
 typedef void(*i2c_readMCP9803_Type) (uint8_t address, uint8_t reg, void* data, size_t len);
 typedef void(*i2c_writeMCP9803_Type)(uint8_t address, uint8_t reg, void* data, size_t len);
 
-typedef struct {
+typedef struct { 
 	uint8_t m_address;
 	uint8_t m_config;
     uint16_t m_data;
     union {
         struct {
-            uint8_t alert   :1;
-            uint8_t readySendCfg   :1;
-            uint8_t readyGetData   :1; 
-            uint8_t unused  :5;
+            uint8_t alert           :1;
+            uint8_t readySendCfg    :1;
+            uint8_t readyGetData    :1; 
+            uint8_t unused          :5;
         };
         uint8_t full;
-    } m_flags;
+    } m_flag;
 
     
     //i2c interface

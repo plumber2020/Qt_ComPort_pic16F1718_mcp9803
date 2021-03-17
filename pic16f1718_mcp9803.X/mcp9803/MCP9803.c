@@ -26,7 +26,7 @@ MCP9803_Type MCP9803_Init(uint8_t address,
     mcp9803.m_address = address;
     mcp9803.m_config = config;
     mcp9803.m_data = 0;
-    mcp9803.m_flags.full = 0;
+    mcp9803.m_flag.full = 0;
 
     mcp9803.i2c_read_handler = read_handler;
     mcp9803.i2c_write_handler = write_handler;
@@ -68,12 +68,12 @@ uint16_t MCP9803_GetTemperature(MCP9803_Type* mcp9803, uint8_t reg)
 
 bool MCP9803_IsAlert(MCP9803_Type* mcp9803)
 {
-    return mcp9803->m_flags.alert;
+    return mcp9803->m_flag.alert;
 }
 
 void MCP9803_SetAlert(MCP9803_Type* mcp9803, bool alert)
 {
-    mcp9803->m_flags.alert = 
+    mcp9803->m_flag.alert = 
         (mcp9803->m_config & MCP9803_ALERT_POLARITY_ACTIVE_HIGH) == alert;
 }
 
