@@ -10,18 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    main_widget.cpp \
-    sensor_widget/form_sensor.cpp \
-    sensor_widget/sensor_impl.cpp
+    main_widget.cpp
 
 HEADERS += \
-    main_widget.h \
-    sensor_widget/form_sensor.h \
-    sensor_widget/sensor_impl.h
+    main_widget.h
 
 FORMS += \
-    main_widget.ui \
-    sensor_widget/form_sensor.ui
+    main_widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
