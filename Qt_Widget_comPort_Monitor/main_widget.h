@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef MAIN_WIDGET_H
+#define MAIN_WIDGET_H
 
 #include <QWidget>
 
@@ -18,4 +18,4 @@ public:
 private:
     Ui::Widget *ui;
 };
-#endif // WIDGET_H
+#endif // MAIN_WIDGET_H
