@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "widgets/form_sensor.h"
+#include "widgets/formSensor.h"
+#include "widgets/form_SensorCollectionList.h"
+
 #include <QString>
 #include <QLayout>
 #include <QDebug>
@@ -11,14 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle(tr("Something title"));
-//    ui->groupBox_Config->layout()->setAlignment(Qt::AlignTop);
-//    ui->vLayout_Display->setAlignment(Qt::AlignTop);
+    ui->groupBox_Config->layout()->setAlignment(Qt::AlignTop);
+    ui->vLayout_Display->setAlignment(Qt::AlignTop);
 
+    ui->vLayout_Display->setSizeConstraint(QLayout::SetMinimumSize);
+    dynamic_resize();
 
-    this->adjustSize();
-    QSize empty_window_size = this->size();
-    QSize full_window_size = empty_window_size + QSize(406,0);
-    this->resize(full_window_size);
+    auto *sc = new Form_SensorCollectionList();
+    ui->groupBox_Config->layout()->addWidget(sc);
+    sc->show();
+    sc->uploadCollection();
+
 }
 
 MainWindow::~MainWindow()
@@ -29,8 +34,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_Add_clicked()
 {
-    FormSensor *sensor = new FormSensor();
-    connect(sensor, &FormSensor::self_remove, this, &MainWindow::remove_Sensor);
+    FormSensor *sensor = new FormSensor(LCD);
+    connect(sensor, &FormSensor::self_remove, this, &MainWindow::onRemoveSensor);
 
     sensorlist.append(sensor);
     ui->vLayout_Display->addWidget(sensor);
@@ -40,10 +45,10 @@ void MainWindow::on_pushButton_Add_clicked()
 void MainWindow::on_pushButton_Plus_clicked()
 {
     if(!sensorlist.empty())
-        sensorlist.at(0)->setValue(ui->lineEdit->text().toDouble());
+        emit sensorlist.at(0)->displayValue(ui->lineEdit->text());
 }
 
-void MainWindow::remove_Sensor(QString const& str)
+void MainWindow::onRemoveSensor(QString const& str)
 {
     if (FormSensor* sensor = qobject_cast<FormSensor*>(sender())) {
         if( int i = sensorlist.indexOf(sensor); i!= -1) {
@@ -57,7 +62,6 @@ void MainWindow::remove_Sensor(QString const& str)
 
 void MainWindow::dynamic_resize()
 {
-    this->update();
     this->adjustSize();
     this->resize(this->size());
 }

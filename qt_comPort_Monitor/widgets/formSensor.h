@@ -1,8 +1,10 @@
-#ifndef FORM_SENSOR_H
-#define FORM_SENSOR_H
+#ifndef FORMSENSOR_H
+#define FORMSENSOR_H
 
 #include <QWidget>
 #include <QString>
+
+enum IndicatorType {LCD, BAR };
 
 namespace Ui {
 class FormSensor;
@@ -11,24 +13,24 @@ class FormSensor;
 class FormSensor : public QWidget
 {
     Q_OBJECT
-    double m_value = 0;
+    IndicatorType m_indicatortype;
 public:
-    explicit FormSensor(QWidget *parent = nullptr);
+    explicit FormSensor(IndicatorType indicatortype, QWidget *parent = nullptr);
     ~FormSensor();
 
 
 signals:
+    void displayValue(QString const&);
     void self_remove(QString);
 
 public slots:
-    void setValue(double value);
-
 
 private slots:
     void on_pushButton_Close_clicked();
 
 private:
     Ui::FormSensor *ui;
+    QWidget *indicator;
 };
 
-#endif // FORM_SENSOR_H
+#endif // FORMSENSOR_H

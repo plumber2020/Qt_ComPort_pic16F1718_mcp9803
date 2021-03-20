@@ -5,7 +5,7 @@
 #include <QList>
 #include <QString>
 
-#include "widgets/form_sensor.h"
+#include "widgets/formSensor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,8 +22,9 @@ public:
 
     void dynamic_resize();
 
+
 public slots:
-    void remove_Sensor(QString const&);
+    void onRemoveSensor(QString const&);
 
 private slots:
     void on_pushButton_Add_clicked();

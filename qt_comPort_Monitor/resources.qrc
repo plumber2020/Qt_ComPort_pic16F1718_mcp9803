@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/sensorCollection">
+        <file alias="devices.txt">sensors-txt-file/sensorDevices.txt</file>
+    </qresource>
+</RCC>
