@@ -1,12 +1,10 @@
 #include "sensor.h"
-#include "config.h"
+#include "config_regexp.h"
 #include <QRegExp>
 #include <QTextStream>
 
 Sensor::Sensor()
-{
-
-}
+{}
 
 void Sensor::parseParam(QStringList const& param_list)
 {

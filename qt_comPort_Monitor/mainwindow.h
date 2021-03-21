@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QList>
+#include <QHash>
 #include <QString>
 
 #include "widgets/formSensor.h"
@@ -15,7 +15,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QList<FormSensor*> sensorlist;
+    QHash<QString,FormSensor*> devicelist;
+    class Form_SensorCollectionList *sc;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -30,6 +31,7 @@ private slots:
     void on_pushButton_Add_clicked();
     void on_pushButton_Plus_clicked();
 
+    void addForm_SensorCollectionList();
 private:
     Ui::MainWindow *ui;
 

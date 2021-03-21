@@ -1,6 +1,6 @@
-#[NAME];    [MEASURE];      [UNIT]; [MIN];  [MAX];  [OTHERS_PARAMS];
+#[NAME];    [MEASURE];      [UNIT]; [MIN];  [MAX];  [FLAGS]
 #
-MCP9800;    Temperature;    °C;     -50;    125;    [HYSTERESIS]75[LIMIT-SET]80
-MCP9801;    Temperature;    °C;     -50;    125;    [HYSTERESIS]75[LIMIT-SET]80
-MCP9802;    Temperature;    °C;     -55;    125;    [HYSTERESIS]75[LIMIT-SET]80
-MCP9803;    Temperature;    °C;     -55;    125;    [HYSTERESIS]75[LIMIT-SET]80
+MCP9800;    Temperature;    °C;     -50;    125;    NORMAL|ALERT, ALARM
+MCP9801;    Temperature;    °C;     -50;    125;    NORMAL|ALERT, ALARM
+MCP9802;    Temperature;    °C;     -55;    125;    NORMAL|ALERT, ALARM
+MCP9803;    Temperature;    °C;     -55;    125;    NORMAL|ALERT, ALARM

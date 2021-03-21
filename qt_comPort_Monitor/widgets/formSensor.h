@@ -13,17 +13,23 @@ class FormSensor;
 class FormSensor : public QWidget
 {
     Q_OBJECT
+    QString m_deviceName;
     IndicatorType m_indicatortype;
 public:
-    explicit FormSensor(IndicatorType indicatortype, QWidget *parent = nullptr);
+    explicit FormSensor(QWidget *parent = nullptr);
     ~FormSensor();
 
+    void addIndicator(QWidget* indicator);
+    void setDeviceName(QString const& name);
+    void setParameters(QString const& measure, QString const& unit);
 
 signals:
     void displayValue(QString const&);
+    void displayFlags(QString const&);
     void self_remove(QString);
 
 public slots:
+    void doFlagsCommand(QString const&);
 
 private slots:
     void on_pushButton_Close_clicked();

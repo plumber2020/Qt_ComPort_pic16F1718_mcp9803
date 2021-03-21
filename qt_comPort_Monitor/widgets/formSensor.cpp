@@ -3,26 +3,11 @@
 #include <QLCDNumber>
 #include <QProgressBar>
 
-#include "indicatorBar.h"
-#include "indicatorLCD.h"
-
-FormSensor::FormSensor(IndicatorType indicatortype, QWidget *parent)
+FormSensor::FormSensor(QWidget *parent)
     : QWidget(parent)
-    , m_indicatortype(indicatortype)
     , ui(new Ui::FormSensor)
 {
     ui->setupUi(this);
-    switch (indicatortype) {
-    case LCD:
-        this->setMinimumWidth(400);
-        indicator = new IndicatorLCD(this);
-        break;
-    case BAR:
-        this->setMinimumWidth(200);
-        indicator = new IndicatorBar(this);
-        break;
-    }
-    ui->verticalLayout->insertWidget(1, indicator, 0, Qt::Alignment());
 }
 
 FormSensor::~FormSensor()
@@ -30,7 +15,29 @@ FormSensor::~FormSensor()
     delete ui;
 }
 
+void FormSensor::addIndicator(QWidget *indicator)
+{
+    ui->hLayout_2->addWidget(indicator, 0, Qt::Alignment());
+}
+
+void FormSensor::setDeviceName(const QString &name)
+{
+    m_deviceName = name;
+    ui->groupBox->setTitle(name);
+}
+
+void FormSensor::setParameters(const QString &measure, const QString &unit)
+{
+    ui->label_Measure->setText(measure);
+    ui->label_Unit->setText(unit);
+}
+
+void FormSensor::doFlagsCommand(const QString &command)
+{
+    ui->label_Command->setText(QString("command:")+command);
+}
+
 void FormSensor::on_pushButton_Close_clicked()
 {
-    emit self_remove(QString("XX__XX"));
+    emit self_remove(m_deviceName);
 }

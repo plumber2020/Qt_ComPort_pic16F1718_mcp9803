@@ -1,11 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "widgets/config_regexp.h"
 #include "widgets/formSensor.h"
 #include "widgets/form_SensorCollectionList.h"
 
 #include <QString>
+#include <QStringList>
 #include <QLayout>
 #include <QDebug>
+
+#include "widgets/indicatorBar.h"
+#include "widgets/indicatorLCD.h"
+#include "widgets/indicatorFLAGs.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,11 +25,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->vLayout_Display->setSizeConstraint(QLayout::SetMinimumSize);
     dynamic_resize();
 
-    auto *sc = new Form_SensorCollectionList();
-    ui->groupBox_Config->layout()->addWidget(sc);
+    addForm_SensorCollectionList();
+}
+
+void MainWindow::addForm_SensorCollectionList()
+{
+    sc = new Form_SensorCollectionList();
+    connect(sc, &Form_SensorCollectionList::fillSensorCollectionBox,
+            [this](QStringList const& strlist){ ui->comboBox->addItems(strlist);});
+    ui->tab_1->layout()->addWidget(sc);
     sc->show();
     sc->uploadCollection();
-
 }
 
 MainWindow::~MainWindow()
@@ -34,30 +46,53 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_Add_clicked()
 {
-    FormSensor *sensor = new FormSensor(LCD);
-    connect(sensor, &FormSensor::self_remove, this, &MainWindow::onRemoveSensor);
+    QString message = ui->lineEdit->text();
+    QStringList words = message.split(QRegExp(SENSORTRANSMISSION_GROUP_DIVIDER));
+    QString deviceName = words.at(0);
 
-    sensorlist.append(sensor);
-    ui->vLayout_Display->addWidget(sensor);
-    sensor->show();
+    QString sensorName = deviceName.split(QRegExp(SENSORTRANSMISSION_ADDRESS_DIVIDER)).at(0);
+    Sensor *sensor = sc->getSensor(sensorName);
+    QString sensorMeasure = sensor->getParam("MEASURE");
+    QString sensorUnit = sensor->getParam("UNIT");
+    QString sensorFlags = sensor->getParam("FLAGS");
+
+    FormSensor *device = new FormSensor(this);
+    device->setDeviceName(deviceName);
+    device->setParameters(sensorMeasure,sensorUnit);
+    device->addIndicator(new IndicatorFLAGS(sensorFlags,device));
+    device->addIndicator(new IndicatorLCD(device));
+
+    connect(device, &FormSensor::self_remove, this, &MainWindow::onRemoveSensor);
+
+    devicelist[deviceName] = device;
+    ui->vLayout_Display->addWidget(device);
+    device->show();
     dynamic_resize();
 }
 void MainWindow::on_pushButton_Plus_clicked()
 {
-    if(!sensorlist.empty())
-        emit sensorlist.at(0)->displayValue(ui->lineEdit->text());
-}
+    QString dataString = ui->lineEdit->text();
+    QStringList dataStringList = dataString.split(QRegExp(SENSORTRANSMISSION_GROUP_DIVIDER));
 
-void MainWindow::onRemoveSensor(QString const& str)
-{
-    if (FormSensor* sensor = qobject_cast<FormSensor*>(sender())) {
-        if( int i = sensorlist.indexOf(sensor); i!= -1) {
-            delete sensor;
-            sensorlist.removeAt(i);
+    if(auto sensor = devicelist.value(dataStringList.at(0))) {
+        emit sensor->displayValue(dataStringList.at(1));
+
+        emit sensor->displayFlags("idle"); //выкл. всех пропущенных в описании дефолтных
+        for (int i=2; i< dataStringList.size(); ++i) {
+            emit sensor->displayFlags(dataStringList.at(i));
         }
     }
+}
+
+void MainWindow::onRemoveSensor(QString const& device)
+{
+    if(auto sensor = devicelist.value(device)) {
+        delete sensor;
+        devicelist.remove(device);
+    }
+
     dynamic_resize();
-    qDebug() << str << "sensorlist.size()=" << sensorlist.size();
+    qDebug() << device << "sensorlist.size()=" << devicelist.size();
 }
 
 void MainWindow::dynamic_resize()

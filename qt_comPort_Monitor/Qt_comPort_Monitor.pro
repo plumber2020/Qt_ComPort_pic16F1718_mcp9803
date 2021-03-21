@@ -11,18 +11,24 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    widgets/flagColorButton.cpp \
+    widgets/flagElement.cpp \
     widgets/formSensor.cpp \
     widgets/form_SensorCollectionList.cpp \
     widgets/indicatorBar.cpp \
+    widgets/indicatorFLAGs.cpp \
     widgets/indicatorLCD.cpp \
     widgets/sensor.cpp
 
 HEADERS += \
     mainwindow.h \
-    widgets/config.h \
+    widgets/config_regexp.h \
+    widgets/flagColorButton.h \
+    widgets/flagElement.h \
     widgets/formSensor.h \
     widgets/form_SensorCollectionList.h \
     widgets/indicatorBar.h \
+    widgets/indicatorFLAGs.h \
     widgets/indicatorLCD.h \
     widgets/sensor.h
 
