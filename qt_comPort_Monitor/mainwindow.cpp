@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
     dynamic_resize();
 
     addForm_SensorCollectionList();
+
+    //DEVICES/////////////////////////////////////
+    add_deviceCollection();
 }
 
 void MainWindow::addForm_SensorCollectionList()
@@ -103,3 +106,48 @@ void MainWindow::dynamic_resize()
 
 
 
+#include "devices/device.h"
+#include "devices/device_collection.h"
+
+
+void MainWindow::add_deviceCollection()
+{
+    dc = new Device_Collection(this);
+
+    connect(dc, &Device_Collection::send_ToSensorNamesBox,
+            [&](QStringList const& strlist){ ui->comboBox_sensorsList->addItems(strlist); });
+    connect(dc, &Device_Collection::send_ToDeviceNamesBox,
+            [&](QString const& str){ ui->comboBox_devicesList->addItem(str); });
+
+    dc->uploadCollection();
+}
+
+void MainWindow::on_pushButton_qD_clicked()
+{
+    Device* device = dc->parseMessage(ui->lineEdit_2->text());
+    if(!device) return;
+
+     QString deviceName = device->name();
+     auto sensorParam = dc->getSensor(deviceName);
+
+//     QString sensorName = sensorParam.at(0);
+     QString sensorMeasure = sensorParam.at(1);
+     QString sensorUnit = sensorParam.at(2);
+//     QString sensorMIN = sensorParam.at(3);
+//     QString sensorMAX = sensorParam.at(4);
+     QString sensorFlags = sensorParam.at(5);
+
+    FormSensor *deviceForm = new FormSensor(this);
+    deviceForm->setDeviceName(deviceName);
+    deviceForm->setParameters(sensorMeasure, sensorUnit);
+    deviceForm->addIndicator(new IndicatorFLAGS(sensorFlags,deviceForm));
+    deviceForm->addIndicator(new IndicatorLCD(deviceForm));
+
+    connect(deviceForm, &FormSensor::self_remove, this, &MainWindow::onRemoveSensor);
+
+    devicelist[deviceName] = deviceForm;
+    ui->vLayout_Display->addWidget(deviceForm);
+    //deviceForm->show();
+    dynamic_resize();
+
+}

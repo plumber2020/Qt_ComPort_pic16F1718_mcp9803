@@ -11,6 +11,7 @@ class Sensor
 
 public:
     Sensor();
+
     void parseParam(QStringList const&);
     QString getParam(QString key);
 

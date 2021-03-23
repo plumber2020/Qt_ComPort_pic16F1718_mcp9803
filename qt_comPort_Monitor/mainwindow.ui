@@ -81,7 +81,7 @@
           <enum>QTabWidget::North</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tab_1">
           <attribute name="title">
@@ -153,6 +153,50 @@
                </property>
                <property name="text">
                 <string>plus</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_3">
+          <attribute name="title">
+           <string>Страница</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QComboBox" name="comboBox_sensorsList"/>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBox_devicesList"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>MCP9803:001; 81.2 15.2; ALERT ALARM</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_qD">
+               <property name="text">
+                <string>send to qDebug</string>
                </property>
               </widget>
              </item>
