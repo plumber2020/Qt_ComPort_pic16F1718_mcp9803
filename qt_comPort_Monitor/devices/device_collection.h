@@ -9,17 +9,15 @@ class Device;
 class Device_Collection : public QObject
 {
     Q_OBJECT
-    QHash<QString, QStringList> m_collection{};
-    QHash<QString, Device*> m_devices{};
+    QHash<QString, QStringList> m_collection{};     //collection list of sensors
+    QHash<QString, Device*> m_devices{};            //list of identified devices
 public:
     explicit Device_Collection(QObject *parent = nullptr);
 
-    void uploadCollection();
+    QStringList uploadCollection();                 //get list of sensorNames
     QStringList getSensor(const QString &sensorName) const;
 
-    Device* parseMessage(QString const& message);
-
-    //static const QStringList deviceTemplateList;
+    Device* parseMessage(QString const& message);   //get appropriated device with updated values
 
 private:
 

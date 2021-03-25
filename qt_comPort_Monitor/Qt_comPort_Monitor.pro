@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     devices/device.cpp \
     devices/device_collection.cpp \
+    devices/sensor_collection.cpp \
     main.cpp \
     mainwindow.cpp \
     widgets/flagColorButton.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     devices/device.h \
     devices/device_collection.h \
     devices/device_config.h \
+    devices/sensor_collection.h \
     mainwindow.h \
     widgets/config_regexp.h \
     widgets/flagColorButton.h \

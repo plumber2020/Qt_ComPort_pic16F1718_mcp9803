@@ -6,23 +6,20 @@
 class Device : public QObject
 {
     Q_OBJECT
-//    Q_PROPERTY(QStringList m_values READ values WRITE setValues NOTIFY valuesChanged)
-//    Q_PROPERTY(QStringList m_flags READ flags WRITE setFlags NOTIFY flagsChanged)
 
-
-    QString m_name{};
-    QStringList m_values{};
-    QStringList m_flags{};
+    QString m_name{};       //device name
+    QStringList m_values{}; //current variable's values
+    QStringList m_flags{};  //current flags's values
 public:
     explicit Device(QString name, QObject *parent = nullptr);
 
     QString name() const;
 
+    QStringList values() const;
+    QStringList flags() const;
+
     void setValues(const QStringList &);
     void setFlags(const QStringList &);
-
-    QStringList values();
-    QStringList flags();
 
 signals:
     void valuesChanged(const QStringList &);

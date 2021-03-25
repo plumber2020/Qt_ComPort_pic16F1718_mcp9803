@@ -7,16 +7,14 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDebug>
+#include <QRegExp>
 
 
-//const QStringList Device_Collection::deviceTemplateList = {DEVICECOLLECTION_TEMPLATE_LIST};
-
-Device_Collection::Device_Collection(QObject *parent)
-    : QObject(parent)
+Device_Collection::Device_Collection(QObject *parent) : QObject(parent)
 {
 }
 
-void Device_Collection::uploadCollection()
+QStringList Device_Collection::uploadCollection()
 {
     int lineCount{};
     QStringList sensorNames;
@@ -24,11 +22,11 @@ void Device_Collection::uploadCollection()
     QFile file(":/sensorCollection/devices.txt");
     if (!file.exists()) {
         qWarning("Cannot find file");
-        return;
+        return sensorNames;
     }
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qWarning("Cannot access file");
-        return;
+        return sensorNames;
     }
 
     QTextStream in(&file);
@@ -52,7 +50,7 @@ void Device_Collection::uploadCollection()
     qDebug("Total lines of sensors: writed = %d, loaded = %d",
            lineCount, m_collection.size());
 
-    emit send_ToSensorNamesBox(qMove(sensorNames));
+    return sensorNames;
 }
 
 Device *Device_Collection::parseMessage(const QString &message)

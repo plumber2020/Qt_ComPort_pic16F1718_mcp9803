@@ -36,7 +36,8 @@ private slots:
     void addForm_SensorCollectionList();
 
     void add_deviceCollection();
-    void on_pushButton_qD_clicked();
+    void on_pButton_com1_clicked();
+    void on_pButton_com2_clicked();
 
 private:
     Ui::MainWindow *ui;

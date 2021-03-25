@@ -35,12 +35,12 @@ void Device::setFlags(const QStringList &flags)
     }
 }
 
-QStringList Device::values()
+QStringList Device::values() const
 {
     return m_values;
 }
 
-QStringList Device::flags()
+QStringList Device::flags() const
 {
     return m_flags;
 }

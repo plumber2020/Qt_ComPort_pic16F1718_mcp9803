@@ -1,8 +1,8 @@
 #ifndef DEVICE_CONFIG_H
 #define DEVICE_CONFIG_H
 
-#include <QRegExp>
-#include <QRegExp>
+
+enum PARAM_NAMES {NAME, MEASURE, UNIT, MIN, MAX, FLAGS};
 
 // devices list template names
 #define DEVICECOLLECTION_TEMPLATE_LIST     "NAME","MEASURE","UNIT","MIN","MAX","FLAGS"

@@ -8,6 +8,7 @@
 #include <QStringList>
 #include <QLayout>
 #include <QDebug>
+#include <QButtonGroup>
 
 #include "widgets/indicatorBar.h"
 #include "widgets/indicatorLCD.h"
@@ -29,6 +30,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     //DEVICES/////////////////////////////////////
     add_deviceCollection();
+
+    static QButtonGroup *bg = new QButtonGroup(this);
+    bg->addButton(ui->pButton_com1);
+    bg->addButton(ui->pButton_com2);
+
+
 }
 
 void MainWindow::addForm_SensorCollectionList()
@@ -72,6 +79,7 @@ void MainWindow::on_pushButton_Add_clicked()
     device->show();
     dynamic_resize();
 }
+
 void MainWindow::on_pushButton_Plus_clicked()
 {
     QString dataString = ui->lineEdit->text();
@@ -113,18 +121,16 @@ void MainWindow::dynamic_resize()
 void MainWindow::add_deviceCollection()
 {
     dc = new Device_Collection(this);
+    ui->comboBox_sensorsList->
+            addItems(dc->uploadCollection());
 
-    connect(dc, &Device_Collection::send_ToSensorNamesBox,
-            [&](QStringList const& strlist){ ui->comboBox_sensorsList->addItems(strlist); });
     connect(dc, &Device_Collection::send_ToDeviceNamesBox,
             [&](QString const& str){ ui->comboBox_devicesList->addItem(str); });
-
-    dc->uploadCollection();
 }
 
-void MainWindow::on_pushButton_qD_clicked()
+void MainWindow::on_pButton_com1_clicked()
 {
-    Device* device = dc->parseMessage(ui->lineEdit_2->text());
+    Device* device = dc->parseMessage(ui->lineEdit_com1->text());
     if(!device) return;
 
      QString deviceName = device->name();
@@ -149,5 +155,10 @@ void MainWindow::on_pushButton_qD_clicked()
     ui->vLayout_Display->addWidget(deviceForm);
     //deviceForm->show();
     dynamic_resize();
+
+}
+
+void MainWindow::on_pButton_com2_clicked()
+{
 
 }
