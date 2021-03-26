@@ -1,6 +1,7 @@
 #ifndef INDICATORFLAGS_H
 #define INDICATORFLAGS_H
 
+#include <QObject>
 #include <QWidget>
 #include <QGroupBox>
 #include <QList>
@@ -14,26 +15,19 @@
 class IndicatorFLAGS : public QGroupBox
 {
     Q_OBJECT
-    QList<QPushButton*> m_buttonList;
+//    QHash<QString,int> m_flagList;
     QButtonGroup *m_bgroup;
 
 public:
     explicit IndicatorFLAGS(QWidget *parent = nullptr);
-    IndicatorFLAGS(QString const& flags, QWidget *parent = nullptr);
+    void addFlagStates(QStringList const& flagStates);
 
 signals:
-    void commandFromFlagsButton(QString);
+    void commandFromFlags(QString);
 
 public slots:
     void displayToFLAGS(QStringList const&);
 
-private slots:
-    void selectionButtonChanges(int);
-    void displayFlags(QString const&);
-
-private:
-    QStringList parseFlagsList(QString);
-    QStringList parseFlagState(QString);
 };
 
 #endif // INDICATORFLAGS_H

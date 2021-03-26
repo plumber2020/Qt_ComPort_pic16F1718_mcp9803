@@ -15,13 +15,13 @@ SOURCES += \
     devices/device.cpp \
     devices/device_collection.cpp \
     devices/sensor_collection.cpp \
-    widgets/flagColorButton.cpp \
-    widgets/flagElement.cpp \
     widgets/formSensor.cpp \
     widgets/form_SensorCollectionList.cpp \
-    widgets/indicatorBar.cpp \
-    widgets/indicatorFLAGs.cpp \
-    widgets/indicatorLCD.cpp \
+    widgets/indicators/BAR/indicatorBar.cpp \
+    widgets/indicators/FLAG/flagElement.cpp \
+    widgets/indicators/FLAG/flagcolorbutton.cpp \
+    widgets/indicators/FLAG/indicatorFLAGs.cpp \
+    widgets/indicators/LCD/indicatorLCD.cpp \
     widgets/sensor.cpp
 
 HEADERS += \
@@ -31,14 +31,13 @@ HEADERS += \
     devices/device_collection.h \
     devices/device_config.h \
     devices/sensor_collection.h \
-    widgets/config_regexp.h \
-    widgets/flagColorButton.h \
-    widgets/flagElement.h \
     widgets/formSensor.h \
     widgets/form_SensorCollectionList.h \
-    widgets/indicatorBar.h \
-    widgets/indicatorFLAGs.h \
-    widgets/indicatorLCD.h \
+    widgets/indicators/BAR/indicatorBar.h \
+    widgets/indicators/FLAG/flagColorButton.h \
+    widgets/indicators/FLAG/flagElement.h \
+    widgets/indicators/FLAG/indicatorFLAGs.h \
+    widgets/indicators/LCD/indicatorLCD.h \
     widgets/sensor.h
 
 FORMS += \

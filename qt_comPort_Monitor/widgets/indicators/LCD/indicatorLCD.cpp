@@ -1,15 +1,11 @@
 #include "indicatorLCD.h"
-#include "formSensor.h"
 
 IndicatorLCD::IndicatorLCD(QWidget *parent) : QLCDNumber(parent)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
     setDecMode();
-    setDigitCount(7);
-    setSmallDecimalPoint(1);
-    QString st = QString (
-                "QLCDNumber {"
-                    "background-color:rgb(200, 200, 250);"
-                 "}");
+    setDigitCount(LCDNumber_DIGITCOUNT);
+    setSmallDecimalPoint(LCDNumber_DECIMALPOINT);
+    QString st = QString (LCDNumber_STYLE);
     setStyleSheet(st);
 }

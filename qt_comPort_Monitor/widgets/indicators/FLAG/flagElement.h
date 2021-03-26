@@ -9,21 +9,22 @@ class FlagElement : public QObject
 {
     Q_OBJECT
 
-    unsigned m_state{0};
+    int m_state{-1};
     QStringList m_statesList{};
 public:
     FlagElement(QObject *parent = nullptr);
     FlagElement(QStringList state, QObject *parent = nullptr);
 
-    QString getFlagCurrentName();
+    int getState() const;
+    void setState(int state);
 
-    unsigned getState() const;
-    void setState(const unsigned &state);
+    bool contains(QString const&);
+    int changeState(QString const&);
 
-    bool changeState(QString const&);
+    QString getFlagCurrentName() const;
 
 signals:
-    void stateChanged(unsigned);
+    void stateChanged(int);
 };
 
 #endif // FLAGELEMENT_H

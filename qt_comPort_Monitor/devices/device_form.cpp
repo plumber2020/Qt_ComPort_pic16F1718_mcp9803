@@ -3,8 +3,8 @@
 
 #include "device.h"
 #include "device_config.h"
-#include "widgets/indicatorLCD.h"
-#include "widgets/indicatorFLAGs.h"
+#include "widgets/indicators/LCD/indicatorLCD.h"
+#include "widgets/indicators/FLAG/indicatorFLAGs.h"
 
 Device_Form::Device_Form(QWidget *parent) :
     QWidget(parent),
@@ -37,7 +37,10 @@ void Device_Form::setDevice(Device *device, QStringList const& sensorParam)
     ui->label_Measure->setText(sensorMeasure);
     ui->label_Unit->setText(sensorUnit);
 
-    IndicatorFLAGS *iflg = new IndicatorFLAGS(sensorFlags,this);
+    IndicatorFLAGS *iflg = new IndicatorFLAGS(this);
+    QStringList sensorFlagsList = sensorFlags.split(QRegExp_PAR_FLAGS_DIVIDER);
+    for(QString const& flagStateList : sensorFlagsList)
+        iflg->addFlagStates(flagStateList.split(QRegExp_PAR_FLAGSTATE_DIVIDER));
     ui->hLayout_2->addWidget(iflg);
     connect(device,&Device::flagsChanged,
             [=](QStringList const& strlist){ iflg->displayToFLAGS(strlist);} );

@@ -1,6 +1,16 @@
 #include "flagColorButton.h"
 
 
+FlagElement *FlagColorButton::getFlag() const
+{
+    return m_flag;
+}
+
+bool FlagColorButton::contains(const QString &s)
+{
+    return m_flag->contains(s);
+}
+
 FlagColorButton::FlagColorButton(FlagElement *flag, QWidget *parent)
     : QPushButton(flag->getFlagCurrentName(), parent)
     , m_flag(flag)
@@ -27,16 +37,21 @@ void FlagColorButton::restoreBackground()
                         .arg(currentground.red()).arg(currentground.green()).arg(currentground.blue()));
 }
 
-FlagElement *FlagColorButton::getFlagElement() const
-{
-    return m_flag;
-}
-
-void FlagColorButton::changeBackground(unsigned index)
+void FlagColorButton::changeBackground(int index)
 {
     setText(m_flag->getFlagCurrentName());
-    if(index)
-        setBackground(QColor(Qt::BKGDCOLOR_PUSHBUTTON_ACTIVE));
-    else
-        restoreBackground();
+    if(index<0) {
+        setText("IDLE");
+        setBackground(QColor(BKGDCOLOR_PUSHBUTTON_DEFAULT));
+        setEnabled(false);
+        setFlat(true);
+    } else {
+        setEnabled(true);
+        setFlat(false);
+        if (index>0)
+            setBackground(QColor(BKGDCOLOR_PUSHBUTTON_ACTIVE));
+        else
+            restoreBackground();
+    }
+
 }

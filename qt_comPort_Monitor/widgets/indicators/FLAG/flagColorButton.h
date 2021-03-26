@@ -6,24 +6,27 @@
 #include <QColor>
 #include "flagElement.h"
 
-#define BKGDCOLOR_PUSHBUTTON_DEFAULT   lightGray
-#define BKGDCOLOR_PUSHBUTTON_ACTIVE    red
+#define BKGDCOLOR_PUSHBUTTON_DEFAULT   QString("#e1e1e1")
+#define BKGDCOLOR_PUSHBUTTON_ACTIVE    Qt::red
+#define BKGDCOLOR_PUSHBUTTON_DISABLE   QString("#f0f0f0")
 
 class FlagColorButton : public QPushButton
 {
     Q_OBJECT
+
     FlagElement *m_flag;
-    QColor background{Qt::BKGDCOLOR_PUSHBUTTON_DEFAULT};      //дефолтный цвет фона кнопки
-    QColor currentground{Qt::BKGDCOLOR_PUSHBUTTON_ACTIVE};    //текущий цвет фона кнопки
+    QColor background{BKGDCOLOR_PUSHBUTTON_DEFAULT};      //дефолтный цвет фона кнопки
+    QColor currentground{BKGDCOLOR_PUSHBUTTON_ACTIVE};    //текущий цвет фона кнопки
 
 public:
     FlagColorButton(FlagElement *flag, QWidget *parent = nullptr);
 
     QColor getBackground() const;
-    FlagElement *getFlagElement() const;
+    FlagElement *getFlag() const;
+    bool contains(QString const&);
 
 public slots:
-    void changeBackground(unsigned);
+    void changeBackground(int);
     void setBackground(const QColor &back);
     void restoreBackground();
 };
