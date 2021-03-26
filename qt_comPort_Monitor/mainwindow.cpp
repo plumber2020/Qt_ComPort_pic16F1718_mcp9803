@@ -95,15 +95,17 @@ void MainWindow::on_pushButton_Plus_clicked()
     }
 }
 
-void MainWindow::onRemoveSensor(QString const& device)
+void MainWindow::onRemoveSensor(QString const& deviceName)
 {
-    if(auto sensor = devicelist.value(device)) {
+    if(auto sensor = devicelist.value(deviceName)) {
         delete sensor;
-        devicelist.remove(device);
+        devicelist.remove(deviceName);
     }
 
+
+
     dynamic_resize();
-    qDebug() << device << "sensorlist.size()=" << devicelist.size();
+    //qDebug() << device << "sensorlist.size()=" << devicelist.size();
 }
 
 void MainWindow::dynamic_resize()
@@ -116,16 +118,18 @@ void MainWindow::dynamic_resize()
 
 #include "devices/device.h"
 #include "devices/device_collection.h"
+#include "devices/device_config.h"
+#include "devices/device_form.h"
 
 
 void MainWindow::add_deviceCollection()
 {
     dc = new Device_Collection(this);
-    ui->comboBox_sensorsList->
-            addItems(dc->uploadCollection());
 
-    connect(dc, &Device_Collection::send_ToDeviceNamesBox,
-            [&](QString const& str){ ui->comboBox_devicesList->addItem(str); });
+    ui->comboBox_sensorsList->addItems(
+                dc->sensorCollection()->uploadCollection());
+    connect(dc, &Device_Collection::devicesChanged,
+            [this](QStringList const& list){ui->comboBox_devicesList->addItems(list); });
 }
 
 void MainWindow::on_pButton_com1_clicked()
@@ -133,32 +137,25 @@ void MainWindow::on_pButton_com1_clicked()
     Device* device = dc->parseMessage(ui->lineEdit_com1->text());
     if(!device) return;
 
-     QString deviceName = device->name();
-     auto sensorParam = dc->getSensor(deviceName);
+    if(!m_devicesMAP.contains(device)) {
+        Device_Form *deviceForm = new Device_Form(this);
 
-//     QString sensorName = sensorParam.at(0);
-     QString sensorMeasure = sensorParam.at(1);
-     QString sensorUnit = sensorParam.at(2);
-//     QString sensorMIN = sensorParam.at(3);
-//     QString sensorMAX = sensorParam.at(4);
-     QString sensorFlags = sensorParam.at(5);
+        QString sensorName = device->sensorName();
+        QStringList sensorParam = dc->sensorCollection()->getParameters(sensorName);
+        deviceForm->setDevice(device,sensorParam);
 
-    FormSensor *deviceForm = new FormSensor(this);
-    deviceForm->setDeviceName(deviceName);
-    deviceForm->setParameters(sensorMeasure, sensorUnit);
-    deviceForm->addIndicator(new IndicatorFLAGS(sensorFlags,deviceForm));
-    deviceForm->addIndicator(new IndicatorLCD(deviceForm));
+        m_devicesMAP[device] = deviceForm;
+        ui->vLayout_Display->addWidget(deviceForm);
+        dynamic_resize();
 
-    connect(deviceForm, &FormSensor::self_remove, this, &MainWindow::onRemoveSensor);
-
-    devicelist[deviceName] = deviceForm;
-    ui->vLayout_Display->addWidget(deviceForm);
-    //deviceForm->show();
-    dynamic_resize();
+        //second time for display current values in message
+        dc->parseMessage(ui->lineEdit_com1->text());
+    }
 
 }
 
 void MainWindow::on_pButton_com2_clicked()
 {
-
+    dc->parseMessage(ui->lineEdit_com2->text());
 }
+

@@ -1,4 +1,5 @@
 #include "sensor_collection.h"
+#include "device_config.h"
 
 #include <QFile>
 #include <QFileInfo>
@@ -35,10 +36,10 @@ QStringList Sensor_Collection::uploadCollection()
         if (line.size()==0
                 || line.startsWith(DEVICECOLLECTION_COMMENT_LINE)) continue;
 
-        QStringList paramList = line.split(DEVICECOLLECTION_PAR_GROUP_DIVIDER);
+        QStringList paramList = line.split(QRegExp_PAR_GROUP_DIVIDER);
         if (paramList.size()==1) continue;  //only name without params - not useful
 
-        QString sensorName = paramList.at(NAME);
+        QString sensorName = paramList.at((int)SENSOR_PARAM_NAMES::NAME);
         m_collection.insert(sensorName, paramList);
         sensorNames.append(sensorName);
 
@@ -53,7 +54,7 @@ QStringList Sensor_Collection::uploadCollection()
 }
 
 
-QString Sensor_Collection::getParameter(QString const& sensorName, PARAM_NAMES paramName) const
+QStringList Sensor_Collection::getParameters(QString const& sensorName) const
 {
-    return m_collection.value(sensorName).at(paramName);
+    return m_collection.value(sensorName);
 }

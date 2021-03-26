@@ -7,13 +7,14 @@ class Device : public QObject
 {
     Q_OBJECT
 
-    QString m_name{};       //device name
-    QStringList m_values{}; //current variable's values
-    QStringList m_flags{};  //current flags's values
+    QString m_name{};               //deviceName [sensorName:address]
+    QStringList m_values{};         //current variable's values
+    QStringList m_flags{};          //current flags's values
 public:
     explicit Device(QString name, QObject *parent = nullptr);
 
     QString name() const;
+    QString sensorName() const;
 
     QStringList values() const;
     QStringList flags() const;

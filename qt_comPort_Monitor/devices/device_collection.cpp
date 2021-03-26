@@ -1,90 +1,47 @@
 #include "device_collection.h"
+#include "sensor_collection.h"
 #include "device.h"
 #include "device_config.h"
 
-#include <QFile>
-#include <QFileInfo>
-#include <QDir>
-#include <QTextStream>
-#include <QDebug>
 #include <QRegExp>
-
+#include <QDebug>
 
 Device_Collection::Device_Collection(QObject *parent) : QObject(parent)
 {
+    m_sensorCollection = new Sensor_Collection(parent);
 }
 
-QStringList Device_Collection::uploadCollection()
+Sensor_Collection *Device_Collection::sensorCollection() const
 {
-    int lineCount{};
-    QStringList sensorNames;
-
-    QFile file(":/sensorCollection/devices.txt");
-    if (!file.exists()) {
-        qWarning("Cannot find file");
-        return sensorNames;
-    }
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        qWarning("Cannot access file");
-        return sensorNames;
-    }
-
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        if (line[0]==DEVICECOLLECTION_COMMENT_LINE) continue;
-
-        QStringList paramList = line.split(DEVICECOLLECTION_PAR_GROUP_DIVIDER);
-        if (paramList.size() ==  0 ) continue;
-
-        QString sensorName = paramList.at(0);
-        m_collection.insert(sensorName, paramList);
-        sensorNames.append(sensorName);
-
-        qDebug() << line; ++lineCount;
-    }
-    file.close();
-
-    qDebug("Total lines of sensors: writed = %d, loaded = %d",
-           lineCount, m_collection.size());
-
-    return sensorNames;
+    return m_sensorCollection;
 }
 
 Device *Device_Collection::parseMessage(const QString &message)
 {
-    QStringList deviceMessage = message.split(DEVICECOLLECTION_MSG_GROUP_DIVIDER);
+    QStringList deviceMessage = message.split(QRegExp_MSG_GROUP_DIVIDER);
     if(deviceMessage.size() ==0) return nullptr;
 
-    QString deviceName = deviceMessage.at(0);
-    QStringList _name =   deviceMessage.at(0).split(DEVICECOLLECTION_MSG_ADDRESS_DIVIDER);
-    QStringList _values = deviceMessage.at(1).split(DEVICECOLLECTION_MSG_VALUES_DIVIDER);
-    QStringList _flags =  deviceMessage.at(2).split(DEVICECOLLECTION_MSG_VALUES_DIVIDER);
-
-    if(!m_collection.contains(_name.at(0))) return nullptr;
+    QString deviceName = deviceMessage.at((int)DEVICE_VALUE_MESSAGE::FULNAME);
 
     Device *device = m_devices.value(deviceName);
-    if(!device) {
-       device = new Device(deviceName, this);
-       m_devices.insert(deviceName, device);
-       emit send_ToDeviceNamesBox(deviceName);
+    if(!device)
+    {
+        QStringList _name = deviceName.split(QRegExp_MSG_ADDRESS_DIVIDER);
+        if(m_sensorCollection->getParameters(_name.at(0)).size()==0) return nullptr;   //no such sensor in collection
+        device = new Device(deviceName,this);
+        m_devices.insert(deviceName, device);
+        emit devicesChanged(m_devices.keys());  //update devices list
     }
-
-    device->setValues(_values);
-    device->setFlags(_flags);
+    else
+    {
+        QStringList _values = deviceMessage.at((int)DEVICE_VALUE_MESSAGE::VALUES)
+                .split(QRegExp_MSG_VALUES_DIVIDER);
+        QStringList _flags =  deviceMessage.at((int)DEVICE_VALUE_MESSAGE::FLAGS)
+                .split(QRegExp_MSG_VALUES_DIVIDER);
+        device->setValues(_values);
+        device->setFlags(_flags);
+    }
     return device;
 }
 
-QStringList Device_Collection::getSensor(const QString &deviceName) const
-{
-    QStringList _name = deviceName.split(DEVICECOLLECTION_MSG_ADDRESS_DIVIDER);
-    return m_collection.value(_name.at(0));
-}
 
-void Device_Collection::receiveDebug(const QStringList &strlist)
-{
-    for(QString const& str : strlist)
-        qDebug() << str;
-}

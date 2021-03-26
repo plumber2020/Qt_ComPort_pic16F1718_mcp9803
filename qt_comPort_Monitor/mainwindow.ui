@@ -235,7 +235,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>MCP9803:001; 81.2 15.2; ALERT ALARM</string>
+                  <string>MCP9803:001; 70.0 -10; NORMAL</string>
                  </property>
                 </widget>
                </item>

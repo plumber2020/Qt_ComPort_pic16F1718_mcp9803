@@ -8,7 +8,6 @@
 class FlagElement : public QObject
 {
     Q_OBJECT
-   // Q_PROPERTY(unsigned m_state READ getState WRITE setState NOTIFY stateChanged)
 
     unsigned m_state{0};
     QStringList m_statesList{};

@@ -1,20 +1,21 @@
 #include "device.h"
+#include "device_config.h"
 #include "device_collection.h"
 
 Device::Device(QString name, QObject *parent)
     : QObject(parent)
     , m_name(name)
 {
-    auto const& casted_parent = qobject_cast<Device_Collection*>(parent);
-    connect(this, &Device::valuesChanged,
-            casted_parent, &Device_Collection::receiveDebug);
-    connect(this, &Device::flagsChanged,
-            casted_parent, &Device_Collection::receiveDebug);
 }
 
 QString Device::name() const
 {
     return m_name;
+}
+
+QString Device::sensorName() const
+{
+    return m_name.split(QRegExp_MSG_ADDRESS_DIVIDER).at(0);
 }
 
 void Device::setValues(const QStringList &values)

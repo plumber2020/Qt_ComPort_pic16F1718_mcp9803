@@ -12,7 +12,4 @@ IndicatorLCD::IndicatorLCD(QWidget *parent) : QLCDNumber(parent)
                     "background-color:rgb(200, 200, 250);"
                  "}");
     setStyleSheet(st);
-
-    connect(qobject_cast<FormSensor*>(parent),&FormSensor::displayValue,
-            [this](QString const& str){ display(str.toDouble()); });
 }

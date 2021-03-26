@@ -43,8 +43,8 @@ IndicatorFLAGS::IndicatorFLAGS(const QString &flags, QWidget *parent) : Indicato
     connect(m_bgroup, SIGNAL(buttonClicked(int)),
             this, SLOT(selectionButtonChanges(int)));
     //var2.
-    connect(this,&IndicatorFLAGS::commandFromFlagsButton,
-            qobject_cast<FormSensor*>(parent), &FormSensor::doFlagsCommand);
+//    connect(this,&IndicatorFLAGS::commandFromFlagsButton,
+//            qobject_cast<FormSensor*>(parent), &FormSensor::doFlagsCommand);
 
     connect(m_bgroup,
             qOverload<QAbstractButton*>(&QButtonGroup::buttonClicked),
@@ -53,10 +53,16 @@ IndicatorFLAGS::IndicatorFLAGS(const QString &flags, QWidget *parent) : Indicato
         emit commandFromFlagsButton(button->text());
     });
 
-    connect(qobject_cast<FormSensor*>(parent), &FormSensor::displayFlags,
-            this,&IndicatorFLAGS::displayFlags);
+//    connect(this, &IndicatorFLAGS::displayToFLAGS,
+//            [this](const QString &str){displayFlags(str);});
 
 
+}
+
+void IndicatorFLAGS::displayToFLAGS(const QStringList &strlist)
+{
+    for(QString const& s : strlist)
+        displayFlags(s);
 }
 
 void IndicatorFLAGS::selectionButtonChanges(int n)
@@ -74,6 +80,8 @@ void IndicatorFLAGS::displayFlags(const QString &str)
 
     }
 }
+
+
 
 QStringList IndicatorFLAGS::parseFlagsList(QString str)
 {

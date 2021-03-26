@@ -24,6 +24,9 @@ public:
 signals:
     void commandFromFlagsButton(QString);
 
+public slots:
+    void displayToFLAGS(QStringList const&);
+
 private slots:
     void selectionButtonChanges(int);
     void displayFlags(QString const&);

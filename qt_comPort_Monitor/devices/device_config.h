@@ -2,23 +2,31 @@
 #define DEVICE_CONFIG_H
 
 
-enum PARAM_NAMES {NAME, MEASURE, UNIT, MIN, MAX, FLAGS};
-
-// devices list template names
-#define DEVICECOLLECTION_TEMPLATE_LIST     "NAME","MEASURE","UNIT","MIN","MAX","FLAGS"
 #define DEVICECOLLECTION_COMMENT_LINE      "#"
 
+enum class SENSOR_PARAM_NAMES {NAME, MEASURE, UNIT, MIN, MAX, FLAGsLIST};
 // parameters example:  MCP9800; Temperature; °C; -50; 125; NORMAL|ALERT, ALARM
-// parameter dividers
-#define DEVICECOLLECTION_PAR_GROUP_DIVIDER      QRegExp("([;]\\s*)")    // "G1;G2;..." - groups
-#define DEVICECOLLECTION_PAR_FLAGS_DIVIDER      QRegExp("([,]\\s*)")    // "F1,F2,..." - flags
-#define DEVICECOLLECTION_PAR_FLAGSTATE_DIVIDER  QRegExp("([|]\\s*)")    // "A|B|..."   - multistate flag
 
-// message example:     MCP9800:001; 76.2; ALERT
+// parameter dividers
+#define PAR_GROUP_DIVIDER      ";"    // "G1;G2;..." - groups
+#define PAR_FLAGS_DIVIDER      ","    // "F1,F2,..." - flags
+#define PAR_FLAGSTATE_DIVIDER  "|"    // "A|B|..."   - multistate flag
+
+#define QRegExp_PAR_GROUP_DIVIDER      QRegExp("([" PAR_GROUP_DIVIDER "]\\s*)")     // and any spaces after
+#define QRegExp_PAR_FLAGS_DIVIDER      QRegExp("([" PAR_FLAGS_DIVIDER "]\\s*)")     // and any spaces after
+#define QRegExp_PAR_FLAGSTATE_DIVIDER  QRegExp("([" PAR_FLAGSTATE_DIVIDER "]\\s*)") // and any spaces after
+
+// message example:     MCP9800:001; 76.2 ...; ALERT ...
+enum class DEVICE_VALUE_MESSAGE {FULNAME, VALUES, FLAGS};
+
 // message dividers
-#define DEVICECOLLECTION_MSG_GROUP_DIVIDER      QRegExp("([;]\\s*)")    // "G1;G2;..." - groups
-#define DEVICECOLLECTION_MSG_ADDRESS_DIVIDER    QRegExp("([:])")        // "MCP9800:001" - address=001
-#define DEVICECOLLECTION_MSG_VALUES_DIVIDER     QRegExp("(\\s+)")       // one or more spaces
+#define MSG_GROUP_DIVIDER      ";"    // "G1;G2;..." - groups
+#define MSG_ADDRESS_DIVIDER    ":"    // "MCP9800:001" - address=001
+#define MSG_VALUES_DIVIDER     " "    // space
+
+#define QRegExp_MSG_GROUP_DIVIDER      QRegExp("([" MSG_GROUP_DIVIDER "]\\s*)")     // and any spaces after
+#define QRegExp_MSG_ADDRESS_DIVIDER    QRegExp("([" MSG_ADDRESS_DIVIDER "])")       //
+#define QRegExp_MSG_VALUES_DIVIDER     QRegExp("([" MSG_VALUES_DIVIDER "]\\s*)")    // and any spaces after
 
 
 #endif // DEVICE_CONFIG_H

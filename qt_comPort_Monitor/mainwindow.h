@@ -3,10 +3,15 @@
 
 #include <QMainWindow>
 #include <QHash>
+#include <QMap>
+#include <QPair>
 #include <QString>
 
 #include "widgets/formSensor.h"
 #include "devices/device_collection.h"
+#include "devices/sensor_collection.h"
+
+
 
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +24,8 @@ class MainWindow : public QMainWindow
 
     QHash<QString,FormSensor*> devicelist;
     class Form_SensorCollectionList *sc;
+
+    QMap<class Device*, class Device_Form*> m_devicesMAP;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
