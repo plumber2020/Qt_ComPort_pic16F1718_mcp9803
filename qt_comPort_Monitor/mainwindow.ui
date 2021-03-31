@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>350</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>0</height>
+    <height>300</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,7 @@
        </size>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="title">
        <string>Config</string>
@@ -77,6 +77,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="tabPosition">
           <enum>QTabWidget::North</enum>
          </property>
@@ -85,96 +91,13 @@
          </property>
          <widget class="QWidget" name="tab_1">
           <attribute name="title">
-           <string>Tab 1</string>
+           <string>ComPort List</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <layout class="QVBoxLayout" name="vLayout_1"/>
-           </item>
-          </layout>
+          <layout class="QVBoxLayout" name="verticalLayout_2"/>
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="title">
-           <string>Tab 2</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <layout class="QHBoxLayout" name="hLayout_1">
-             <item>
-              <widget class="QComboBox" name="comboBox">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_Add">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>add</string>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="hLayout_2">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetDefaultConstraint</enum>
-             </property>
-             <item>
-              <widget class="QLineEdit" name="lineEdit">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>MCP9803:000 76.2 NORMAL ALARM</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_Plus">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>plus</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab_3">
-          <attribute name="title">
-           <string>Страница</string>
+           <string>Message In</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
@@ -247,7 +170,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>MCP9803:001; 70.0 -10; NORMAL</string>
+                  <string>MCP9803:001; 110.0; NORMAL</string>
                  </property>
                 </widget>
                </item>
@@ -260,7 +183,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>MCP9803:001; 81.2 15.2; ALERT ALARM</string>
+                  <string>MCP9803:001; 71.2; ALERT LEVEL0</string>
                  </property>
                 </widget>
                </item>

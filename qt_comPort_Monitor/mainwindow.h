@@ -7,7 +7,6 @@
 #include <QPair>
 #include <QString>
 
-#include "widgets/formSensor.h"
 #include "devices/device_collection.h"
 #include "devices/sensor_collection.h"
 
@@ -22,7 +21,6 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    QHash<QString,FormSensor*> devicelist;
     class Form_SensorCollectionList *sc;
 
     QMap<class Device*, class Device_Form*> m_devicesMAP;

@@ -28,6 +28,7 @@ QStringList Sensor_Collection::uploadCollection()
         return sensorNames;
     }
 
+
     QTextStream in(&file);
     in.setCodec("UTF-8");
 

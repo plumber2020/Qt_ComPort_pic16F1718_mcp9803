@@ -1,9 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "widgets/formSensor.h"
-#include "widgets/form_SensorCollectionList.h"
-
 #include <QString>
 #include <QStringList>
 #include <QLayout>
@@ -91,17 +88,8 @@ void MainWindow::on_pushButton_Plus_clicked()
 //    }
 }
 
-void MainWindow::onRemoveSensor(QString const& deviceName)
+void MainWindow::onRemoveSensor(QString const&)
 {
-    if(auto sensor = devicelist.value(deviceName)) {
-        delete sensor;
-        devicelist.remove(deviceName);
-    }
-
-
-
-    dynamic_resize();
-    //qDebug() << device << "sensorlist.size()=" << devicelist.size();
 }
 
 void MainWindow::dynamic_resize()

@@ -23,7 +23,7 @@ public:
     void setFlags(const QStringList &);
 
 signals:
-    void valuesChanged(const QStringList &);
+    void valuesChanged(const QStringList&);
     void flagsChanged(const QStringList&);
 };
 

@@ -17,7 +17,7 @@ public:
     explicit IndicatorLCD(QWidget *parent = nullptr);
 
 signals:
-    void displayToLCD(QString const&);
+    //void displayToLCD(QString const&);
 };
 
 #endif // INDICATORLCD_H

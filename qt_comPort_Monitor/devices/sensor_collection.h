@@ -16,7 +16,7 @@ public:
     QStringList getParameters(QString const& sensorName) const;
 
 signals:
-
+    void sendSensorList(QString);
 };
 
 #endif // SENSOR_COLLECTION_H

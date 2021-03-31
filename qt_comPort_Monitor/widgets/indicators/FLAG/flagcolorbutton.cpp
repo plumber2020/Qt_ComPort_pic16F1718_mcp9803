@@ -26,15 +26,20 @@ QColor FlagColorButton::getBackground() const {
 void FlagColorButton::setBackground(const QColor &back) {
     currentground = background;
     //установка цвета фона через qss (таблица стилей qt)
-    this->setStyleSheet(QString{"background-color: rgb(%1, %2, %3);"}
-                        .arg(back.red()).arg(back.green()).arg(back.blue()));
+    this->setStyleSheet(QString{"background-color: rgba(%1, %2, %3, %4);"}
+                        .arg(back.red())
+                        .arg(back.green())
+                        .arg(back.blue())
+                        .arg(back.alpha()*m_flag->getState()/m_flag->maxState()));
 }
 
 void FlagColorButton::restoreBackground()
 {
     //установка цвета фона через qss (таблица стилей qt)
     this->setStyleSheet(QString{"background-color: rgb(%1, %2, %3);"}
-                        .arg(currentground.red()).arg(currentground.green()).arg(currentground.blue()));
+                        .arg(currentground.red())
+                        .arg(currentground.green())
+                        .arg(currentground.blue()));
 }
 
 void FlagColorButton::changeBackground(int index)

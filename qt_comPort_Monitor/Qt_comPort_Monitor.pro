@@ -15,14 +15,12 @@ SOURCES += \
     devices/device.cpp \
     devices/device_collection.cpp \
     devices/sensor_collection.cpp \
-    widgets/formSensor.cpp \
-    widgets/form_SensorCollectionList.cpp \
     widgets/indicators/BAR/indicatorBar.cpp \
     widgets/indicators/FLAG/flagElement.cpp \
     widgets/indicators/FLAG/flagcolorbutton.cpp \
     widgets/indicators/FLAG/indicatorFLAGs.cpp \
     widgets/indicators/LCD/indicatorLCD.cpp \
-    widgets/sensor.cpp
+    widgets/indicators/indicator.cpp
 
 HEADERS += \
     devices/device_form.h \
@@ -31,20 +29,16 @@ HEADERS += \
     devices/device_collection.h \
     devices/device_config.h \
     devices/sensor_collection.h \
-    widgets/formSensor.h \
-    widgets/form_SensorCollectionList.h \
     widgets/indicators/BAR/indicatorBar.h \
     widgets/indicators/FLAG/flagColorButton.h \
     widgets/indicators/FLAG/flagElement.h \
     widgets/indicators/FLAG/indicatorFLAGs.h \
     widgets/indicators/LCD/indicatorLCD.h \
-    widgets/sensor.h
+    widgets/indicators/indicator.h
 
 FORMS += \
     devices/device_form.ui \
-    mainwindow.ui \
-    widgets/formSensor.ui \
-    widgets/form_SensorCollectionList.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

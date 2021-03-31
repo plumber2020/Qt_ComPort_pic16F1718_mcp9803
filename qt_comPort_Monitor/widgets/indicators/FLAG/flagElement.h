@@ -17,9 +17,11 @@ public:
 
     int getState() const;
     void setState(int state);
-
     bool contains(QString const&);
+    bool isValid(int index);
+    int maxState() const;
     int changeState(QString const&);
+    int changeState(int);
 
     QString getFlagCurrentName() const;
 
