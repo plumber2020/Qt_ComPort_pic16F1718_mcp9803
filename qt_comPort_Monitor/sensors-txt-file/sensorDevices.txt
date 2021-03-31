@@ -1,6 +1,0 @@
-#[NAME];    [MEASURE];    [UNIT]; [MIN];  [MAX];  [FLAGS]
-#
-MCP9800;    Temperature;   °C;     -50;    125;    NORMAL|ALERT, IDLE|ALARM
-MCP9801;    Temperature;   °C;     -50;    125;    NORMAL|ALERT, IDLE|ALARM
-MCP9802;    Temperature;   °C;     -55;    125;    NORMAL|ALERT, IDLE|ALARM
-MCP9803;    Temperature;   °C;     -55;    125;    NORMAL|ALERT, LEVEL0|LEVEL1|LEVEL2|LEVEL3
