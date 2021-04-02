@@ -1,0 +1,24 @@
+#SENSOR'S PARAMETERS
+#
+#GROUPNAME_TYPES:   NAME VALUE
+#INDICATOR_TYPES:   LCD FLG
+#SEPARATOR_TYPES:   GROUPS_SEPARATOR GNAMES_SEPARATOR INDICS_SEPARATOR PARAMS_SEPARATOR VALUES_SEPARATOR
+#
+#EXAMPLE LINE ========================================================================
+#NAME:  Name;
+#VALUE: {INDICATOR} [MeasureName Units MinScaleValue ... ... MaxScaleValue]; #comments
+#=====================================================================================
+#
+#GROUPS_SEPARATOR:  [;]\s*
+#GNAMES_SEPARATOR:  [:]\s*
+#INDICS_SEPARATOR:  [{}]\s*
+#PARAMS_SEPARATOR:  [\[\]]\s*
+#VALUES_SEPARATOR:  [ ]\s*
+#
+#=====================================================================================
+
+NAME:  MCP9800; VALUE: {LCD} [Temperature °C  -50 125]; VALUE: {FLG} [FLAG bool LOW HIGH]
+
+NAME:  MCP9803;
+VALUE: {LCD} [Temperature  °C   -50  75  80 125]
+VALUE: {FLG} [ALARM-LEVEL  bool NORMAL ALERT]

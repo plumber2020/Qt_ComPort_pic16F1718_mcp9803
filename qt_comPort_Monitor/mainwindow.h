@@ -17,5 +17,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    class DisplayGroup_Form* displayForm;
 };
 #endif // MAINWINDOW_H
