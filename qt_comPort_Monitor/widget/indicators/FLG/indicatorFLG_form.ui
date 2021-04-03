@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>IndicatorLCD_Form</class>
- <widget class="QWidget" name="IndicatorLCD_Form">
+ <class>IndicatorFLG_Form</class>
+ <widget class="QWidget" name="IndicatorFLG_Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
+    <width>150</width>
     <height>200</height>
    </rect>
   </property>
@@ -18,30 +18,33 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>300</width>
+    <width>150</width>
     <height>200</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>300</width>
+    <width>150</width>
     <height>200</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_lcd">
+    <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>MEASURE</string>
+      <string>FLAG_Button</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QHBoxLayout" name="hLayout_1">
         <item>
-         <widget class="QLabel" name="label_measure">
+         <widget class="QLabel" name="label_name">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -51,84 +54,45 @@
           <property name="font">
            <font>
             <pointsize>16</pointsize>
-            <weight>50</weight>
-            <italic>false</italic>
-            <bold>false</bold>
-            <underline>false</underline>
            </font>
           </property>
           <property name="text">
-           <string>MEASURE</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_unit">
-          <property name="font">
-           <font>
-            <pointsize>16</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>UNIT</string>
+           <string>NAME</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="QLCDNumber" name="lcdNumber">
+       <widget class="QPushButton" name="pButton">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="font">
          <font>
-          <pointsize>32</pointsize>
+          <pointsize>16</pointsize>
          </font>
         </property>
-        <property name="smallDecimalPoint">
-         <bool>true</bool>
-        </property>
-        <property name="digitCount">
-         <number>6</number>
-        </property>
-        <property name="segmentStyle">
-         <enum>QLCDNumber::Filled</enum>
-        </property>
-        <property name="value" stdset="0">
-         <double>125.000000000000000</double>
+        <property name="text">
+         <string>FLG</string>
         </property>
        </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="hLayout_2">
         <item>
-         <widget class="QLabel" name="label_min">
+         <widget class="QLabel" name="label_states">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="text">
-           <string>MIN</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QProgressBar" name="progressBar">
-          <property name="value">
-           <number>24</number>
-          </property>
-          <property name="textVisible">
-           <bool>false</bool>
-          </property>
-          <property name="format">
-           <string>%p%</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_max">
-          <property name="text">
-           <string>MAX</string>
+           <string>Error:</string>
           </property>
          </widget>
         </item>

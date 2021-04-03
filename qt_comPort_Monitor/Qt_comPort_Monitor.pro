@@ -18,6 +18,7 @@ SOURCES += \
     widget/device_form.cpp \
     widget/displaygroup_form.cpp \
     widget/indicator.cpp \
+    widget/indicators/FLG/indicatorFLG_form.cpp \
     widget/indicators/LCD/indicatorLCD_form.cpp
 
 HEADERS += \
@@ -29,12 +30,14 @@ HEADERS += \
     widget/device_form.h \
     widget/displaygroup_form.h \
     widget/indicator.h \
+    widget/indicators/FLG/indicatorFLG_form.h \
     widget/indicators/LCD/indicatorLCD_form.h
 
 FORMS += \
     mainwindow.ui \
     widget/device_form.ui \
     widget/displaygroup_form.ui \
+    widget/indicators/FLG/indicatorFLG_form.ui \
     widget/indicators/LCD/indicatorLCD_form.ui
 
 # Default rules for deployment.

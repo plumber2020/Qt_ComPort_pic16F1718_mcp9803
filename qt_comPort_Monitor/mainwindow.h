@@ -15,6 +15,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_lineEdit_returnPressed();
+
 private:
     Ui::MainWindow *ui;
     class DisplayGroup_Form* displayForm;

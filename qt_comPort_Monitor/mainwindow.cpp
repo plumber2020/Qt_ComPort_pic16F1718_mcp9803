@@ -11,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     displayForm = new DisplayGroup_Form(this);
     ui->rootLayout_display->addWidget(displayForm);
 
-    QString message_test("MCP9800:000; 70.2 LOW");
-    displayForm->messageUpdate(message_test);
 }
 
 MainWindow::~MainWindow()
@@ -20,3 +18,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_lineEdit_returnPressed()
+{
+    QString message_test("MCP9800:000; 70.2 LOW");   
+    message_test = ui->lineEdit->text();
+
+    displayForm->messageUpdate(message_test);
+}

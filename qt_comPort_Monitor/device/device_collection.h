@@ -15,8 +15,9 @@ class Device_Collection : public QObject
     Sensor_Collection* m_sensorCollection;
 public:
     explicit Device_Collection(QObject *parent = nullptr);
-
     Sensor_Collection* sensorCollection() const;
+
+public slots:
     void parseMessage(QString const& message);       //get appropriated device with updated values
 
 signals:

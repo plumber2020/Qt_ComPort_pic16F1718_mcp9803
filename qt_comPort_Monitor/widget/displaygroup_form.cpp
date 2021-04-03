@@ -6,6 +6,9 @@
 #include "./widget/device_form.h"
 #include "./device/device.h"
 
+#include <QtDebug>
+
+
 DisplayGroup_Form::DisplayGroup_Form(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DisplayGroup_Form)
@@ -30,11 +33,14 @@ void DisplayGroup_Form::makeDeviceForm(Device *device, const QStringList &param)
     Device_Form *w = new Device_Form(device, this);
     w->setParameters(param);
     ui->rootLayout->addWidget(w);
-    adjustSize();
-    resize(this->size());
 }
 
 void DisplayGroup_Form::messageUpdate(const QString &message)
 {
     m_deviceCollection->parseMessage(message);
+}
+
+void DisplayGroup_Form::treatCommand(const QString &command)
+{
+    qDebug() << command;
 }

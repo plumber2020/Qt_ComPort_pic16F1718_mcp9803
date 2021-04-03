@@ -17,9 +17,12 @@ public:
     explicit DisplayGroup_Form(QWidget *parent = nullptr);
     ~DisplayGroup_Form();
 
+signals:
+
 public slots:
     void makeDeviceForm(class Device*, QStringList const& param);
     void messageUpdate(QString const& message);
+    void treatCommand(QString const& command);
 
 private:
     Ui::DisplayGroup_Form *ui;

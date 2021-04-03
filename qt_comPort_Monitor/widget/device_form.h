@@ -14,6 +14,7 @@ class Device_Form : public QWidget
     Q_OBJECT
     class Device *m_device;
     QList<class Indicator*> m_indicators;
+
 public:
     Device_Form(Device *device, QWidget *parent = nullptr);
     ~Device_Form();

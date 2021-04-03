@@ -9,11 +9,8 @@ namespace Ui { class IndicatorLCD_Form; }
 class IndicatorLCD_Form : public Indicator
 {
     Q_OBJECT
+    QList<double> limits{0.0,1.0};
 
-    struct PARAM{
-        QString measure, unit;
-        QList<double> limits{0.0,1.0};
-    } m_param{};
 public:
     explicit IndicatorLCD_Form(QWidget *parent = nullptr);
     ~IndicatorLCD_Form();
@@ -21,7 +18,7 @@ public:
     // Indicator interface
 public:
     void setParams(const QStringList &) override;
-    void setValues(const QStringList &) override;
+    void setValue(const QString &) override;
 
 private:
     Ui::IndicatorLCD_Form *ui;
