@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     displayForm = new DisplayGroup_Form(this);
     ui->rootLayout_display->addWidget(displayForm);
 
-    QString message_test("MCP9803:000; 70.2; ALERT");
+    QString message_test("MCP9800:000; 70.2 LOW");
     displayForm->messageUpdate(message_test);
 }
 

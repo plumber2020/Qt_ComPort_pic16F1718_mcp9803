@@ -3,8 +3,6 @@
 
 ParseDeviceObject::ParseDeviceObject(QObject *parent) : QObject(parent)
 {
-    lineNames[GROUPNAME_TYPES] =
-            QStringList{GROUPNAME_TYPES_DEFAULT};
     lineNames[INDICATOR_TYPES] =
             QStringList{INDICATOR_TYPES_DEFAULT};
     lineNames[SEPARATOR_TYPES] =
@@ -23,7 +21,7 @@ bool ParseDeviceObject::isComment(const QString &line) const
     return line.startsWith(COMMENT_LINE);
 }
 
-void ParseDeviceObject::config(const QString &line)
+void ParseDeviceObject::setConfig(const QString &line)
 {
     for (QHash<QString, QStringList>::iterator iter =
          lineNames.begin(); iter != lineNames.end(); ++iter)
@@ -48,17 +46,79 @@ void ParseDeviceObject::config(const QString &line)
     }
 }
 
+QStringList &ParseDeviceObject::getIndicators() const
+{
+    return lineNames[INDICATOR_TYPES];
+}
+
 bool ParseDeviceObject::isDataLine(const QString &line) const
 {
     return line.size()!=0 && !line.startsWith(COMMENT_LINE);
 }
 
-bool ParseDeviceObject::isFirstLine_ofParams(const QString &line) const
+bool ParseDeviceObject::isStartsWith_NAME(const QString &line) const
 {
-    return line.startsWith(lineNames.value(GROUPNAME_TYPES).at(0));
+    return line.startsWith("NAME");
 }
 
-QStringList ParseDeviceObject::parse(const QString &line, SEPARATOR_POSITION pos)
+bool ParseDeviceObject::isStartsWith_VALUE(const QString &line) const
+{
+    return line.startsWith("VALUE");
+}
+
+QString ParseDeviceObject::parse_NAME_line(const QString &line) const
+{
+/*
+NAME:  MCP9800; VALUES: LCD [Temperature °C  -50 125]
+*/
+    QStringList _group = parse(line,GROUP_SEPARATOR);
+    //result--> [0]:{NAME:  MCP9800} [1]:{VALUES: LCD [Temperature °C  -50 125]}
+
+    if(_group.size()==0) return QString();
+
+    QStringList _gpart = parse(_group[0],NAMES_SEPARATOR);
+     //result--> [0]:{NAME} [1]:{MCP9800}
+
+    if(_gpart.size()<=1) return QString();
+
+    return _gpart.at(1);
+    //return-->MCP9800
+}
+
+QStringList ParseDeviceObject::parse_VALUE_line(const QString &line) const
+{
+/*
+VALUE: {LCD} [Temperature  °C   -50  75  80 125]
+*/
+    QStringList _values{};
+
+    QStringList _param = parse(line, NAMES_SEPARATOR);
+    //return-->[0]{VALUE} [1]{{LCD} [Temperature  °C   -50  75  80 125]}
+
+    if(_param.size()<=1) return _values;
+
+    QStringList _paramList = parse(_param[1], INDIC_SEPARATOR);
+    //return-->[0]{LCD} [1]{[Temperature  °C   -50  75  80 125]}
+
+    if(_paramList.size()<=1) //
+        _paramList.insert(0,QString());
+
+
+    QString& _indicatorName = _paramList[0];
+    if(_paramList.size()<=1) return _values;
+
+    QStringList _measureValues = parse(_paramList[1], PARAM_SEPARATOR);
+    //return-->[0]{Temperature  °C   -50  75  80 125}
+    if(_measureValues.size()==0) return _values;
+
+    _values << _indicatorName;
+    _values << parse(_measureValues[0], VALUE_SEPARATOR);
+
+    return _values;
+    //return-->[0]{LCD} [1]{Temperature} [2]{°C} [3]{-50} ...
+}
+
+QStringList ParseDeviceObject::parse(const QString &line, SEPARATOR_POSITION pos) const
 {
     QRegExp rx = separators.value(pos);
     return line.split(rx, Qt::SkipEmptyParts);

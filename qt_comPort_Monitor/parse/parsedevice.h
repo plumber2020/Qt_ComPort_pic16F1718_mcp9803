@@ -6,25 +6,18 @@
 #include <QRegExp>
 
 
-#define COMMENT_LINE                "#"
+#define COMMENT_LINE                "#"                 //not able to change
+#define GROUPNAME_TYPES_DEFAULT     "NAME", "VALUE"     //not able to change
 
-#define GROUPNAME_TYPES             "GROUPNAME_TYPES"
 #define INDICATOR_TYPES             "INDICATOR_TYPES"
 #define SEPARATOR_TYPES             "SEPARATOR_TYPES"
 
-#define GROUPNAME_TYPES_DEFAULT     "NAME", "VALUE"
 #define INDICATOR_TYPES_DEFAULT     "LCD", "FLG"
 #define SEPARATOR_NAMES_DEFAULT     "GROUPS_SEPARATOR",\
                                     "GNAMES_SEPARATOR",\
                                     "INDICS_SEPARATOR",\
                                     "PARAMS_SEPARATOR",\
                                     "VALUES_SEPARATOR"
-
-//#define GROUP_SEPARATOR_POSITION    0
-//#define NAMES_SEPARATOR_POSITION    1
-//#define INDIC_SEPARATOR_POSITION    2
-//#define PARAM_SEPARATOR_POSITION    3
-//#define VALUE_SEPARATOR_POSITION    4
 
 #define GROUPS_SEPARATOR            "[;]\\s*"
 #define GNAMES_SEPARATOR            "[:]\\s*"
@@ -52,11 +45,16 @@ public:
 
     bool isComment(QString const& line) const;
     bool isDataLine(QString const& line) const;
-    bool isFirstLine_ofParams(QString const& line) const;
 
-    void config(QString const& line);
-    QStringList parse(QString const& line,
-                      SEPARATOR_POSITION pos);
+    bool isStartsWith_NAME(const QString &line) const;
+    bool isStartsWith_VALUE(const QString &line) const;
+
+    QString parse_NAME_line(const QString &line) const;
+    QStringList parse_VALUE_line(const QString &line) const;
+
+    void setConfig(QString const& line);
+    QStringList& getIndicators() const;
+    QStringList parse(QString const& line, SEPARATOR_POSITION pos) const;
 private:
     static inline QHash<QString,QStringList> lineNames;
     static inline QHash<int,QRegExp> separators;

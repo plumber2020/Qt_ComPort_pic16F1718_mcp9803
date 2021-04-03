@@ -49,7 +49,7 @@ void Sensor_Collection::load(QString const& fileName, Collection_t& collection)
     while (!in.atEnd()) {
         QString line = in.readLine();
         if(pd_object.isComment(line)) {
-            pd_object.config(line);
+            pd_object.setConfig(line);
             continue;
         }
         if(!pd_object.isDataLine(line)) continue;
@@ -74,28 +74,17 @@ VALUE: {FLG} [ALARM-LEVEL  bool NORMAL ALERT]
 */
 
         qDebug() << '\t' << line;
-        //result--> NAME:  MCP9800; VALUES: LCD [Temperature °C  -50 125]
 
-        bool is_sensornameLine = pd_object.isFirstLine_ofParams(line);
-        QStringList _group =
-                pd_object.parse(line,ParseDeviceObject::GROUP_SEPARATOR);
-        //result--> [0]:{NAME:  MCP9800} [1]:{VALUES: LCD [Temperature °C  -50 125]}
-
-        if(is_sensornameLine) //startWith "NAME:"
-        {
-            QStringList _gpart = pd_object.parse(
-                    _group.at(0),ParseDeviceObject::NAMES_SEPARATOR);
-         //result--> [0]:{NAME} [1]:{MCP9800}
-
-            sensorName = _gpart.at(1);
-        }
+        if(pd_object.isStartsWith_NAME(line)) //startWith "NAME:"
+            sensorName = pd_object.parse_NAME_line(line);
 
         if(sensorName.size())
-            collection[sensorName].append(_group);
+            collection[sensorName]
+                    .append(pd_object.parse(line,ParseDeviceObject::GROUP_SEPARATOR));
 
     //RESULT:
     //  collection
-    //  [hash_key] =     MCP9803
+    //  [hash_key] =    MCP9803
     //  [hash_value]    [0]= NAME:   MCP9803;
     //                  [1]= VALUES: Temperature [°C -50 125]
     //                  [2]= FLAGS:  ALARM-LEVEL [NORMAL ALERT]
@@ -109,7 +98,3 @@ QStringList Sensor_Collection::getParameters(QString const& sensorName) const
     return m_parameters.value(sensorName);
 }
 
-//QStringList Sensor_Collection::getIndicators(const QString &sensorName) const
-//{
-//    return m_parameters.value(sensorName);
-//}

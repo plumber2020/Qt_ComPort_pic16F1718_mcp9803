@@ -14,6 +14,9 @@ public:
     virtual ~Indicator(){}
 signals:
     void sendCommand(int);
+
+public:
+    static Indicator* makeIndicator(QString indicatorName, QWidget *parent = nullptr);
 };
 
 #endif // INDICATOR_H

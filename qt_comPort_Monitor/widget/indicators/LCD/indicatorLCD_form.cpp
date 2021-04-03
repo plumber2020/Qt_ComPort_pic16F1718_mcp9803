@@ -1,7 +1,8 @@
 #include "indicatorLCD_form.h"
 #include "ui_indicatorLCD_form.h"
 
-IndicatorLCD_Form::IndicatorLCD_Form(Indicator *parent) :
+
+IndicatorLCD_Form::IndicatorLCD_Form(QWidget *parent) :
     Indicator(parent),
     ui(new Ui::IndicatorLCD_Form)
 {
@@ -14,29 +15,38 @@ IndicatorLCD_Form::~IndicatorLCD_Form()
 }
 
 
-void IndicatorLCD_Form::setParams(QStringList const& param)
+void IndicatorLCD_Form::setParams(QStringList const& params)
 {
-    m_param = PARAM{param.at(0), param.at(1), param.at(2).toInt(), param.at(3).toInt()};
-    ui->label_measure->setText(param.at(0));
-    ui->label_unit->setText(param.at(1));
-    ui->label_min->setText(QString("MIN=")+param.at(2));
-    ui->label_max->setText(QString("MAX=")+param.at(3));
+    m_param.measure = params.at(0);
+    m_param.unit = params.at(1);
+    for (int i=2; i<params.size(); ++i)
+        m_param.limits[i-2] = params.at(i).toDouble();
 
-    ui->progressBar->setMinimum(m_param.min);
-    ui->progressBar->setMaximum(m_param.max);
+    double& min = m_param.limits.front();
+    double& max = m_param.limits.back();
+
+    ui->label_measure->setText(m_param.measure);
+    ui->label_unit->setText(m_param.unit);
+    ui->label_min->setText(QString("MIN=%1").arg(min));
+    ui->label_max->setText(QString("MAX=%1").arg(max));
+
+    ui->progressBar->setMinimum(min);
+    ui->progressBar->setMaximum(max);
 }
 
 void IndicatorLCD_Form::setValues(const QStringList &values)
 {
     double value = values.at(0).toDouble();
+    double& min = m_param.limits.front();
+    double& max = m_param.limits.back();
 
-    if(value<=m_param.max && m_param.min<=value) {
+    if(value<=max && min<=value) {
         ui->lcdNumber->display(value);
         ui->progressBar->setValue(value);
     }
     else {
         ui->lcdNumber->display("ERROR");
-        ui->progressBar->setValue(m_param.min);
+        ui->progressBar->setValue(min);
     }
 
 }

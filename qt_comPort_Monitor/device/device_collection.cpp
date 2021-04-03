@@ -48,13 +48,8 @@ void Device_Collection::parseMessage(const QString &message)
     }
 
     QStringList _values = pd_object.parse(deviceValues, ParseDeviceObject::VALUE_SEPARATOR);
-    //result--> [0]:{MCP9803:000} [1]:{70.2 ALERT}
+    //result--> [0]:{70.2} [1]{ALERT}
     device->setValues(_values);
-
-    //parsed to:
-    // sensorName = MCP9803
-    // _values = 70.2
-    // _flags = ALERT
 
 }
 

@@ -8,7 +8,7 @@ class Device : public QObject
     Q_OBJECT
 
     QString m_name{};               //deviceName [sensorName:address]
-    QStringList m_values{};  //current variable's values
+    QStringList m_values{};         //current variable's values
 public:
     explicit Device(QString name, QObject *parent = nullptr);
 
