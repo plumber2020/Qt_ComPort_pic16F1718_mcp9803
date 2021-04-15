@@ -102,6 +102,60 @@
 #define FLAG_SetPushPull()        do { ODCONBbits.ODB7 = 0; } while(0)
 #define FLAG_SetOpenDrain()       do { ODCONBbits.ODB7 = 1; } while(0)
 
+// get/set MCP9803_A0 aliases
+#define MCP9803_A0_TRIS                 TRISCbits.TRISC0
+#define MCP9803_A0_LAT                  LATCbits.LATC0
+#define MCP9803_A0_PORT                 PORTCbits.RC0
+#define MCP9803_A0_WPU                  WPUCbits.WPUC0
+#define MCP9803_A0_OD                   ODCONCbits.ODC0
+#define MCP9803_A0_SetHigh()            do { LATCbits.LATC0 = 1; } while(0)
+#define MCP9803_A0_SetLow()             do { LATCbits.LATC0 = 0; } while(0)
+#define MCP9803_A0_Toggle()             do { LATCbits.LATC0 = ~LATCbits.LATC0; } while(0)
+#define MCP9803_A0_GetValue()           PORTCbits.RC0
+#define MCP9803_A0_SetDigitalInput()    do { TRISCbits.TRISC0 = 1; } while(0)
+#define MCP9803_A0_SetDigitalOutput()   do { TRISCbits.TRISC0 = 0; } while(0)
+#define MCP9803_A0_SetPullup()          do { WPUCbits.WPUC0 = 1; } while(0)
+#define MCP9803_A0_ResetPullup()        do { WPUCbits.WPUC0 = 0; } while(0)
+#define MCP9803_A0_SetPushPull()        do { ODCONCbits.ODC0 = 0; } while(0)
+#define MCP9803_A0_SetOpenDrain()       do { ODCONCbits.ODC0 = 1; } while(0)
+
+// get/set MCP9803_A1 aliases
+#define MCP9803_A1_TRIS                 TRISCbits.TRISC1
+#define MCP9803_A1_LAT                  LATCbits.LATC1
+#define MCP9803_A1_PORT                 PORTCbits.RC1
+#define MCP9803_A1_WPU                  WPUCbits.WPUC1
+#define MCP9803_A1_OD                   ODCONCbits.ODC1
+#define MCP9803_A1_SetHigh()            do { LATCbits.LATC1 = 1; } while(0)
+#define MCP9803_A1_SetLow()             do { LATCbits.LATC1 = 0; } while(0)
+#define MCP9803_A1_Toggle()             do { LATCbits.LATC1 = ~LATCbits.LATC1; } while(0)
+#define MCP9803_A1_GetValue()           PORTCbits.RC1
+#define MCP9803_A1_SetDigitalInput()    do { TRISCbits.TRISC1 = 1; } while(0)
+#define MCP9803_A1_SetDigitalOutput()   do { TRISCbits.TRISC1 = 0; } while(0)
+#define MCP9803_A1_SetPullup()          do { WPUCbits.WPUC1 = 1; } while(0)
+#define MCP9803_A1_ResetPullup()        do { WPUCbits.WPUC1 = 0; } while(0)
+#define MCP9803_A1_SetPushPull()        do { ODCONCbits.ODC1 = 0; } while(0)
+#define MCP9803_A1_SetOpenDrain()       do { ODCONCbits.ODC1 = 1; } while(0)
+
+// get/set MCP9803_A2 aliases
+#define MCP9803_A2_TRIS                 TRISCbits.TRISC2
+#define MCP9803_A2_LAT                  LATCbits.LATC2
+#define MCP9803_A2_PORT                 PORTCbits.RC2
+#define MCP9803_A2_WPU                  WPUCbits.WPUC2
+#define MCP9803_A2_OD                   ODCONCbits.ODC2
+#define MCP9803_A2_ANS                  ANSELCbits.ANSC2
+#define MCP9803_A2_SetHigh()            do { LATCbits.LATC2 = 1; } while(0)
+#define MCP9803_A2_SetLow()             do { LATCbits.LATC2 = 0; } while(0)
+#define MCP9803_A2_Toggle()             do { LATCbits.LATC2 = ~LATCbits.LATC2; } while(0)
+#define MCP9803_A2_GetValue()           PORTCbits.RC2
+#define MCP9803_A2_SetDigitalInput()    do { TRISCbits.TRISC2 = 1; } while(0)
+#define MCP9803_A2_SetDigitalOutput()   do { TRISCbits.TRISC2 = 0; } while(0)
+#define MCP9803_A2_SetPullup()          do { WPUCbits.WPUC2 = 1; } while(0)
+#define MCP9803_A2_ResetPullup()        do { WPUCbits.WPUC2 = 0; } while(0)
+#define MCP9803_A2_SetPushPull()        do { ODCONCbits.ODC2 = 0; } while(0)
+#define MCP9803_A2_SetOpenDrain()       do { ODCONCbits.ODC2 = 1; } while(0)
+#define MCP9803_A2_SetAnalogMode()      do { ANSELCbits.ANSC2 = 1; } while(0)
+#define MCP9803_A2_SetDigitalMode()     do { ANSELCbits.ANSC2 = 0; } while(0)
+
 // get/set RC3 procedures
 #define RC3_SetHigh()            do { LATCbits.LATC3 = 1; } while(0)
 #define RC3_SetLow()             do { LATCbits.LATC3 = 0; } while(0)

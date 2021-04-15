@@ -25,6 +25,11 @@ extern "C" {
  
  */ 
    
+#define TEMPLATE_OUTPUT_COMMENT         "#%s%s\r\n"   
+#define TEMPLATE_OUTPUT_DEVICE_NAME     "%s:%u; "    //%s:%u = name:address
+#define TEMPLATE_OUTPUT_DEVICE_VALUE    "%s "      //value
+#define TEMPLATE_OUTPUT_ENDLINE         "\r\n"      //\r\n
+      
 void MCP9803_Initialize();
 void MCP9803_CheckTemperature();
 

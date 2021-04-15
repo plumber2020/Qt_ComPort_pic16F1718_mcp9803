@@ -5,6 +5,7 @@
 #include "mcp9803/MCP9803_conversion.h"
 #include "mcp9803/MCP9803_interface.h"
 
+//FLAG DEBUG for view on pin
 #define DUBUG_1                         0   //view change FLAG before GetTempr
 #define DUBUG_2                         1   //view change FLAG after  GetTempr
 #define FLAG_SET(VALUE)                 LATBbits.LATB7 = VALUE
@@ -25,6 +26,8 @@ volatile uint16_t TMRCallback_Counter = 0;
 void MCP9803_Alert_IOC_InterruptHandler();
 void MCP9803_GetTempr_TMR_InterruptHandler();
 
+#define DEBUG_wakeUpINFORM
+inline void wakeUp_Status();
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -36,18 +39,29 @@ void MCP9803_Initialize() {
     IOCCF5_SetInterruptHandler(MCP9803_Alert_IOC_InterruptHandler);
     TMR6_SetInterruptHandler(MCP9803_GetTempr_TMR_InterruptHandler);
     
+    uint8_t address = ( MCP9803_A0_GetValue() 
+                        | MCP9803_A1_GetValue()<<1
+                        | MCP9803_A2_GetValue()<<2 ) & 0xFF;
+    
     mcp9803 = MCP9803_Init(
-                MCP9803_ADDRESS_BYTE(0x0),
+                MCP9803_ADDRESS_BYTE(address),
                 ( MCP9803_DEFAULT_CONFIG | ACTUAL_ADC_RESOLUTION ),
                 &i2cMCP9803_readDataBlock,
                 &i2cMCP9803_writeDataBlock
     );
     uint8_t operationMode = (MCP9803_OneShot_GetValue()) ? 
                             MCP9803_SHUTDOWN_ENABLE : MCP9803_SHUTDOWN_DISABLE;
-    printf("START Temperature SENSOR: %s. Mode=%s\n\r",
-            (MCP9803_NAME),
-            (operationMode)?"ONE_SHOT":"CONTINUOUS");
+    printf(TEMPLATE_OUTPUT_COMMENT, 
+            "START Temperature SENSOR: ",
+            MCP9803_NAME);
+    printf(TEMPLATE_OUTPUT_COMMENT,
+            MCP9803_NAME,
+            (operationMode)
+            ?" Mode=ONE_SHOT after SLEEP"
+            :" Mode=CONTINUOUS ALERTnoSLEEP");
+
     MCP9803_SetOperationMode(&mcp9803,operationMode);
+    MCP9803_Alert_IOC_InterruptHandler();   //check ALERT right now
 }
 
 void MCP9803_CheckTemperature()
@@ -72,14 +86,18 @@ void MCP9803_CheckTemperature()
                         &mcp9803, MCP9803_AMBIENT_TEMPERATURE_REGISTER);
     
     //output in UART
-    printf("%s[id:%u] ", MCP9803_NAME, mcp9803.m_address&0x7);
-    char result_str[8]="";
-    MCP9803_STRING_fromRAW2complement(result_str, mcp9803.m_data);
-    printf("%8s ", result_str);
+    printf(TEMPLATE_OUTPUT_DEVICE_NAME, 
+            MCP9803_NAME, mcp9803.m_address&0x7);
     
+    FLAG(DUBUG_2,0);
+    char value_str[8]="";
+    MCP9803_STRING_fromRAW2complement(value_str, mcp9803.m_data);
+    printf(TEMPLATE_OUTPUT_DEVICE_VALUE, value_str);
+    
+    FLAG(DUBUG_2,1);
     if ((mcp9803.m_config&MCP9803_SHUTDOWN_ENABLE) != (MCP9803_SHUTDOWN_ENABLE))
-        printf("[%6s] ", (MCP9803_IsAlert(&mcp9803))?"ALERT":"NORMAL");
-    printf("\n\r");
+        printf(TEMPLATE_OUTPUT_DEVICE_VALUE, 
+                (MCP9803_IsAlert(&mcp9803))?"ALERT":"NORMAL");
     
     //reset ///////////////////////////////////////////////////////////
     mcp9803.m_flag.readyGetData = false;
@@ -87,8 +105,12 @@ void MCP9803_CheckTemperature()
     CLRWDT();
     
     //sleep ///////////////////////////////////////////////////////////
-    if (!MCP9803_IsAlert(&mcp9803)) {
-        printf("SLEEP... ");
+    if (MCP9803_IsAlert(&mcp9803)) {
+        printf(TEMPLATE_OUTPUT_ENDLINE);
+    }
+    else
+    {
+        printf(TEMPLATE_OUTPUT_COMMENT,"SLEEP","...");
         FLAG(DUBUG_2,1);
         while(!EUSART_is_tx_done()){}
         FLAG(DUBUG_2,0);
@@ -99,13 +121,28 @@ void MCP9803_CheckTemperature()
         FLAG(DUBUG_1,1);
         TMR6 = 0x00; //restart current count for setup actual delay
         TMRCallback_Counter = 0;  //reset
-        printf("...WAKE UP STATUS [nTO|nPD] = %c%c \n\r",
-                (STATUSbits.nTO)?'1':'0',
-                (STATUSbits.nPD)?'1':'0' 
-                );
+        wakeUp_Status();
         FLAG(DUBUG_1,0);
     }
+}
 
+#include <stdio.h>
+void wakeUp_Status()
+{
+#ifdef DEBUG_wakeUpINFORM
+    char sbuf[40];
+    sprintf(sbuf, "[%s, %s]", 
+            ((STATUSbits.nTO)
+            ?"ALERT interrupt"              //1 = After power-up, CLRWDT instruction or SLEEP instruction
+            :"WDT Time-out"),               //0 = A WDT Time-out occurred
+            ((STATUSbits.nPD)
+            ?"PowerUp | CLRWDT"             //1 = After power-up or by the CLRWDT instruction
+            :"after SLEEP")                 //0 = By execution of the SLEEP instruction  
+            );
+    printf(TEMPLATE_OUTPUT_COMMENT, 
+            "...WAKEUP STATUS=", 
+            sbuf);
+#endif
 }
 
 // INTERRUPT HANDLERS ///////////////////////////////////////////////////////
