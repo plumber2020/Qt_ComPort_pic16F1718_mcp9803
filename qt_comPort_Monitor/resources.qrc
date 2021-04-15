@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>config/sensor_parameters.txt</file>
+        <file>config/sensor_testMessage.txt</file>
+    </qresource>
+</RCC>

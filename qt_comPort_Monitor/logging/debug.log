@@ -1,0 +1,8 @@
+04-04-2021 21:21:16 | INF |  | sensor_collection.cpp | uploadCollection | "#uploadCollection==========================================="
+04-04-2021 21:21:16 | DBG |   | sensor_collection.cpp | load | ":/config/sensor_parameters.txt" :
+04-04-2021 21:21:16 | DBG | L | sensor_collection.cpp | load | 	 "NAME:  MCP9800; VALUE: {LCD} [Temperature °C  -50 125]; VALUE: {FLG} [Alarm LOW HIGH]"
+04-04-2021 21:21:16 | DBG | L | sensor_collection.cpp | load | 	 "NAME:  MCP9803;"
+04-04-2021 21:21:16 | DBG | L | sensor_collection.cpp | load | 	 "VALUE: {LCD} [Temperature  °C   -50  75  80 125]"
+04-04-2021 21:21:16 | DBG | L | sensor_collection.cpp | load | 	 "VALUE: {FLG} [Alarm NORMAL MIDDLE ALERT FATALITY]"
+04-04-2021 21:21:16 | INF |  | sensor_collection.cpp | uploadCollection | "#uploadCollection==========================================="
+04-04-2021 21:21:16 | INF |  | sensor_collection.cpp | uploadCollection | 
