@@ -1,28 +1,39 @@
 #include "device_form.h"
 #include "ui_device_form.h"
+#include "./widget/displaygroup_form.h"
 #include "./widget/indicators/LCD/indicatorLCD_form.h"
 #include "./device/device.h"
-#include "./widget/displaygroup_form.h"
 #include "./parse/parsedevice.h"
 
 #include <QtDebug>
 
-Device_Form::Device_Form(Device *device, QWidget *parent)
+Device_Form::Device_Form(QWidget *parent)
     : QWidget(parent)
-    , m_device(device)
     , ui(new Ui::Device_Form)
 {
     ui->setupUi(this);
-    ui->groupBox->setTitle(m_device->name());
-
-    connect(m_device,&Device::valuesChanged,
-            this,&Device_Form::setMeasurements);
 }
 
 Device_Form::~Device_Form()
 {
-    emit finished(m_device->name());
     delete ui;
+}
+
+// public methods /////////////////////////////////////////////////////////////
+
+Device *Device_Form::device()
+{
+    return m_device;
+}
+
+void Device_Form::setDevice(Device *device)
+{
+    if(m_device)
+        delete m_device;
+    m_device = device;
+    m_device->setParent(this);
+    connect(m_device,&Device::valuesChanged,
+            this,&Device_Form::setMeasurements);
 }
 
 void Device_Form::setParameters(const QStringList &params)
@@ -56,6 +67,8 @@ void Device_Form::setParameters(const QStringList &params)
                                .arg(m_device->name(),command));
         });
     }
+
+    ui->groupBox->setTitle(m_device->name());
 }
 
 void Device_Form::setMeasurements(const QStringList &values)

@@ -30,8 +30,8 @@ signals:
 
 public slots:
     void openPort(QIODevice::OpenMode mode);
-    void writeToPort(QString const&);
     void closePort();
+    void writeToPort(QString const&);
 
 private slots:
     void read_handler();

@@ -12,7 +12,7 @@ SOURCES += \
     comport/comport_controller.cpp \
     comport/comport_worker.cpp \
     device/device.cpp \
-    device/device_collection.cpp \
+    device/device_controller.cpp \
     device/sensor_collection.cpp \
     logging/Logger.cpp \
     main.cpp \
@@ -29,7 +29,7 @@ HEADERS += \
     comport/comport_controller.h \
     comport/comport_worker.h \
     device/device.h \
-    device/device_collection.h \
+    device/device_controller.h \
     device/sensor_collection.h \
     logging/Logger.h \
     mainwindow.h \

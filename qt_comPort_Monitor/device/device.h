@@ -10,12 +10,15 @@ class Device : public QObject
     QString m_name{};               //deviceName [sensorName:address]
     QStringList m_values{};         //current variable's values
 public:
-    explicit Device(QString name, QObject *parent = nullptr);
+    explicit Device(QObject *parent = nullptr);
     ~Device();
 
     QString name() const;
+    void setName(const QString &name);
+
     QString sensorName() const;
     QStringList values() const;
+
 
 signals:
     void valuesChanged(QStringList);

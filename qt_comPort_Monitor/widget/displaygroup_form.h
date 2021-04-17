@@ -5,14 +5,16 @@
 #include <QHash>
 
 namespace Ui { class DisplayGroup_Form; }
-class Device;
+
+class Device_Form;
+class Device_Controller;
 
 
 class DisplayGroup_Form : public QWidget
 {
     Q_OBJECT
-    class Device_Collection*  m_deviceCollection;
-    QHash<QString, class Device_Form*> m_devicesForm;
+    Device_Controller*  m_deviceController;
+    QHash<QString, Device_Form*> m_devices{};
 
 public:
     explicit DisplayGroup_Form(QWidget *parent = nullptr);
@@ -21,7 +23,6 @@ public:
 signals:
 
 public slots:
-    void makeDeviceForm(Device *device, QStringList const& param, QString const& portName);
     void removeDeviceForm(QString const& portName);
     void treatMessage(QString const& portName, QString const& message);
     void treatCommand(QString const& command);

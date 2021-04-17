@@ -12,18 +12,20 @@ namespace Ui { class Device_Form; }
 class Device_Form : public QWidget
 {
     Q_OBJECT
-    class Device *m_device;
+    class Device *m_device{};
     QList<class Indicator*> m_indicators;
 
 public:
-    Device_Form(Device *device, QWidget *parent = nullptr);
+    explicit Device_Form(QWidget *parent = nullptr);
     ~Device_Form();
 
     void setParameters(QStringList const&);
     void setMeasurements(QStringList const&);
 
+    Device* device();
+    void setDevice(Device *device);
+
 signals:
-    void finished(QString const&);
 
 private:
     Ui::Device_Form *ui;

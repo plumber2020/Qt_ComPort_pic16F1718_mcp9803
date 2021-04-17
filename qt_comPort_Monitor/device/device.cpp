@@ -2,16 +2,17 @@
 #include "./parse/parsedevice.h"
 #include <QDebug>
 
-Device::Device(QString name, QObject *parent)
-    : QObject(parent)
-    , m_name(name)
+Device::Device(QObject *parent) : QObject(parent)
 {
 }
 
 Device::~Device()
 {
-    qDebug() << QString("Device deleted: name[%1]")
-                .arg(m_name);
+}
+
+void Device::setName(const QString &name)
+{
+    m_name = name;
 }
 
 QString Device::name() const

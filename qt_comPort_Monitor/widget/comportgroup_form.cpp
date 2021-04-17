@@ -104,17 +104,18 @@ void ComPortGroup_Form::on_pButton_stopMonitoring_clicked()
 
 void ComPortGroup_Form::on_comboBox_portAvailable_currentIndexChanged(const QString &arg1)
 {
+    ui->label_portChecked->setText(arg1);
     ui->label_description->setText(ComPort_Controller::portDescription(arg1));
 }
 
 void ComPortGroup_Form::on_pButton_connect_clicked()
 {
-    QString currentPortName = ui->comboBox_portAvailable->currentText();
+    QString currentPortName = ui->label_portChecked->text();
     m_comportController->connect_toPort(currentPortName);
 }
 
 void ComPortGroup_Form::on_pButton_disconnect_clicked()
 {
-    QString currentPortName = ui->label_portName_activated->text();
+    QString currentPortName = ui->label_portChecked->text();
     m_comportController->disconnect_fromPort(currentPortName);
 }
