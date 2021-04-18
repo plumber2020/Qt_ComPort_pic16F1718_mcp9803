@@ -19,6 +19,8 @@ class ComPortGroup_Form : public QWidget
     Q_OBJECT
     ComPort_Controller* m_comportController;
     QTimer* m_ptimerMonitoring;
+    QStringList m_portAvailable{}, m_portActivated{}, m_portDisactivated{};
+
 public:
     ComPortGroup_Form(QWidget *parent = nullptr);
     ~ComPortGroup_Form();

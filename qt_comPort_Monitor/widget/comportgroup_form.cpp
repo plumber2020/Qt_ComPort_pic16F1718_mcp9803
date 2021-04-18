@@ -41,10 +41,22 @@ ComPortGroup_Form::ComPortGroup_Form(QWidget *parent)
     {
         static int count = 100;
         if(count>100) {
+            m_portAvailable = ComPort_Controller::monitoringComPorts();
+
             QString currentText = ui->comboBox_portAvailable->currentText();
             ui->comboBox_portAvailable->clear();
-            ui->comboBox_portAvailable->addItems(ComPort_Controller::monitoringComPorts());
+            ui->comboBox_portAvailable->addItems(m_portAvailable);
             ui->comboBox_portAvailable->setCurrentText(currentText);
+
+            for(int i=0;i<m_portAvailable.size();++i)
+            {
+                QString const& portName = m_portAvailable.at(i);
+                if(!m_portActivated.contains(portName) &&
+                   !m_portDisactivated.contains(portName))
+                {
+                    m_comportController->connect_toPort(portName);
+                }
+            }
             count = 0;
         }
         ui->progressBar_monitoring->setValue(count);
@@ -63,6 +75,8 @@ ComPortGroup_Form::ComPortGroup_Form(QWidget *parent)
             [this](QString const& portName){
         label_AppendString(ui->label_portName_activated, portName);
         label_RemoveString(ui->label_portName_disactivated, portName);
+        m_portActivated.append(portName);
+        m_portDisactivated.removeAll(portName);
     });
     connect(m_comportController,&ComPort_Controller::comportDisactivated,
             [this](QString const& portName){
@@ -70,6 +84,9 @@ ComPortGroup_Form::ComPortGroup_Form(QWidget *parent)
         label_RemoveString(ui->label_portName_activated, portName);
         if(ui->label_portName_activated->text().isEmpty())
             ui->label_messages->clear();
+        m_portDisactivated.append(portName);
+        m_portActivated.removeAll(portName);
+
         emit portDisactivated(portName);
     });
     connect(m_comportController,&ComPort_Controller::comportMessageUpdated,
