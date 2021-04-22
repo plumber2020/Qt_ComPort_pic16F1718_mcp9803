@@ -37,7 +37,6 @@ void DisplayGroup_Form::treatMessage(QString const& portName, QString const& mes
 {
     Device_Form* deviceform = m_devices.value(portName);
 
-
     if(!deviceform ) {
         Device *device = new Device;
         QStringList param = m_deviceController->parseMessage_getParams(device, message);
@@ -46,12 +45,12 @@ void DisplayGroup_Form::treatMessage(QString const& portName, QString const& mes
             return;
 
         qDebug() << QString("DeviceForm created, port[%1]").arg(portName);
-        qDebug() << QString("m_devices.size()=[%1]").arg(m_devices.size());
         deviceform = new Device_Form(this);
         deviceform->setDevice(device);
         deviceform->setParameters(param);
         ui->rootLayout->addWidget(deviceform,0,Qt::AlignLeft|Qt::AlignTop);
         m_devices.insert(portName, deviceform);
+        qDebug() << QString("m_devices.size()=[%1]").arg(m_devices.size());
     }
 
     deviceform->device()->setValues(

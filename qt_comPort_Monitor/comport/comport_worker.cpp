@@ -94,8 +94,7 @@ void ComPort_Worker::error_handler(QSerialPort::SerialPortError error)
     //handle I/O errors occurred when a resource becomes unavailable,
     //e.g. when the device is unexpectedly removed from the system.
     emit errorUpdated(port->errorString());
-    if( port->isOpen()
-            && error==QSerialPort::ResourceError)
+    if(error!=QSerialPort::NoError)
         closePort();
 }
 

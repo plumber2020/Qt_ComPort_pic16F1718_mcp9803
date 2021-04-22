@@ -28,11 +28,8 @@ QString Device::sensorName() const
 
 void Device::setValues(const QStringList &values)
 {
-    if(m_values != values)
-    {
-        m_values = QStringList(values);
-        emit valuesChanged(values);
-    }
+    m_values = QStringList(values);
+    emit valuesChanged(values);
 }
 
 QStringList Device::values() const
