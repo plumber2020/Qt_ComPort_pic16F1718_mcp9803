@@ -17,7 +17,8 @@
 #
 #=====================================================================================
 
-NAME:  MCP9800; VALUE: {LCD} [Temperature °C  -50 125]; VALUE: {FLG} [Alarm LOW HIGH]
+NAME:  MCP9800;
+VALUE: {LCD} [Temperature °C  -50 125]; VALUE: {FLG} [Alarm LOW HIGH]
 
 NAME:  MCP9803;
 VALUE: {LCD} [Temperature  °C   -50  75  80 125]

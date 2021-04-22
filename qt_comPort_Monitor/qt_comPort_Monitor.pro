@@ -1,6 +1,6 @@
 QT       += core gui serialport
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++17
 
@@ -22,6 +22,8 @@ SOURCES += \
     widget/device_form.cpp \
     widget/displaygroup_form.cpp \
     widget/indicator.cpp \
+    widget/indicators/DGP/indicatorDGP_form.cpp \
+    widget/indicators/DGP/qcustomplot.cpp \
     widget/indicators/FLG/indicatorFLG_form.cpp \
     widget/indicators/LCD/indicatorLCD_form.cpp
 
@@ -38,6 +40,8 @@ HEADERS += \
     widget/device_form.h \
     widget/displaygroup_form.h \
     widget/indicator.h \
+    widget/indicators/DGP/indicatorDGP_form.h \
+    widget/indicators/DGP/qcustomplot.h \
     widget/indicators/FLG/indicatorFLG_form.h \
     widget/indicators/LCD/indicatorLCD_form.h
 
@@ -46,6 +50,7 @@ FORMS += \
     widget/comportgroup_form.ui \
     widget/device_form.ui \
     widget/displaygroup_form.ui \
+    widget/indicators/DGP/indicatorDGP_form.ui \
     widget/indicators/FLG/indicatorFLG_form.ui \
     widget/indicators/LCD/indicatorLCD_form.ui
 

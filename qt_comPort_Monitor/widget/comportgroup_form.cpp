@@ -51,11 +51,9 @@ ComPortGroup_Form::ComPortGroup_Form(QWidget *parent)
             for(int i=0;i<m_portAvailable.size();++i)
             {
                 QString const& portName = m_portAvailable.at(i);
-                if(!m_portActivated.contains(portName) &&
-                   !m_portDisactivated.contains(portName))
-                {
-                    m_comportController->connect_toPort(portName);
-                }
+                if(m_portActivated.contains(portName) || m_portDisactivated.contains(portName))
+                    continue;
+                m_comportController->connect_toPort(portName);
             }
             count = 0;
         }
@@ -75,7 +73,8 @@ ComPortGroup_Form::ComPortGroup_Form(QWidget *parent)
             [this](QString const& portName){
         label_AppendString(ui->label_portName_activated, portName);
         label_RemoveString(ui->label_portName_disactivated, portName);
-        m_portActivated.append(portName);
+
+        if(!m_portActivated.contains(portName)) m_portActivated.append(portName);
         m_portDisactivated.removeAll(portName);
     });
     connect(m_comportController,&ComPort_Controller::comportDisactivated,
@@ -84,7 +83,8 @@ ComPortGroup_Form::ComPortGroup_Form(QWidget *parent)
         label_RemoveString(ui->label_portName_activated, portName);
         if(ui->label_portName_activated->text().isEmpty())
             ui->label_messages->clear();
-        m_portDisactivated.append(portName);
+
+        if(!m_portDisactivated.contains(portName)) m_portDisactivated.append(portName);
         m_portActivated.removeAll(portName);
 
         emit portDisactivated(portName);

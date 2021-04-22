@@ -1,6 +1,7 @@
 #include "indicator.h"
 #include "./widget/indicators/LCD/indicatorLCD_form.h"
 #include "./widget/indicators/FLG/indicatorFLG_form.h"
+#include "./widget/indicators/DGP/indicatorDGP_form.h"
 
 Indicator* Indicator::makeIndicator(QString indicatorName, QWidget *parent)
 {
@@ -9,6 +10,8 @@ Indicator* Indicator::makeIndicator(QString indicatorName, QWidget *parent)
     if(indicatorName=="LCD") indicator = new IndicatorLCD_Form(parent);
     else
     if(indicatorName=="FLG") indicator = new IndicatorFLG_Form(parent);
+    else
+    if(indicatorName=="DGP") indicator = new IndicatorDGP_Form(parent);
 
     return indicator;
 }
